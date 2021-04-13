@@ -1,5 +1,7 @@
-import { CSSProperties } from 'react';
+import React from "react";
 
-export interface AppStyleSheet {
-  [index: string]: CSSProperties;
+export type Style = React.CSSProperties;
+
+export interface StyleSheet {
+  [key: string]: React.CSSProperties;
 }

@@ -1,14 +1,12 @@
-import React, { ReactNode, Suspense } from 'react';
+import React, { ReactNode, Suspense } from "react";
 
 //Three
-import { Physics } from '@react-three/cannon';
+import { Physics } from "@react-three/cannon";
 
 //Components
-import AppCamera from './AppCamera';
-import AppLights from './AppLights';
-import AppControl from './AppControl';
-
-import colors from '../../../config/colors';
+import AppCamera from "./AppCamera";
+import AppLights from "./AppLights";
+import FirstPersonalControl from "../basic/FirstPersonControl";
 
 interface AppCanvasProps {
   children: ReactNode;
@@ -18,11 +16,10 @@ const AppScene = ({ children }: AppCanvasProps) => {
   return (
     <>
       <AppCamera />
-      {/* <fog attach='fog' args={[colors.white, 200, 450]} /> */}
       <AppLights />
 
       <Physics gravity={[0, -35, 0]}>
-        <AppControl />
+        <FirstPersonalControl />
         <Suspense fallback={null}>{children}</Suspense>
       </Physics>
     </>

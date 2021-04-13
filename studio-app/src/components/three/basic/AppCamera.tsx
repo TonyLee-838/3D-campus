@@ -13,7 +13,7 @@ interface forwardProps {
 
 const AppCamera = (props: forwardProps) => {
   return (
-    <PerspectiveCamera position={props.position} {...cameraConfig}>
+    <PerspectiveCamera makeDefault position={props.position} {...cameraConfig}>
       {props.children}
     </PerspectiveCamera>
   );

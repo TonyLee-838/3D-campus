@@ -1,40 +1,62 @@
-import React from 'react';
-import { Canvas } from '@react-three/fiber';
-import { softShadows } from '@react-three/drei';
+import React, { useEffect } from "react";
 
-//components
-// import CampusScene from './components/three/campus/CampusScene';
-// import CoordinateSystem from './components/three/basic/CoordinateSystem';
-import DomMain from './components/dom/DomMain';
-import StudioScene from './components/three/studio/StudioScene';
-import { AppStyleSheet } from './types';
-// import StudioScene from './components/three/studio/StudioScene';
+// Three
+import { Canvas } from "react-three-fiber";
+import { softShadows } from "@react-three/drei";
 
-softShadows({
-  frustum: 3.75, // Frustum width (default: 3.75) must be a float
-  size: 0.005, // World size (default: 0.005) must be a float
-  near: 9.5, // Near plane (default: 9.5) must be a float
-  samples: 17, // Samples (default: 17) must be a int
-  rings: 11, //
-});
+// Components
+import DomMain from "./components/dom/DomMain";
+import StudioScene from "./components/three/studio/StudioScene";
+import Message from "./components/dom/Message";
+import Aim from "./components/dom/Aim";
+
+// Hooks
+import { useStudioStore } from "./store/studioStore";
+
+// Http
+import { getBookShelfData, getMonitorData, getDeskData } from "./http/studio";
+import MissionPanel from "./components/dom/MissionPanel";
+
+// softShadows({
+//   frustum: 3.75, // Frustum width (default: 3.75) must be a float
+//   size: 0.005, // World size (default: 0.005) must be a float
+//   near: 9.5, // Near plane (default: 9.5) must be a float
+//   samples: 17, // Samples (default: 17) must be a int
+//   rings: 11, //
+// });
 
 function App() {
-  return (
-    <div className='App' style={styles.app}>
-      <DomMain />
+  const message = useStudioStore((state) => state.message);
+  const bookshelfData = useStudioStore((state) => state.bookshelfData);
+  const monitorData = useStudioStore((state) => state.monitorData);
+  const deskData = useStudioStore((state) => state.deskData);
+  const setBookshelfData = useStudioStore((state) => state.setBookshelfData);
+  const setMonitorData = useStudioStore((state) => state.setMonitorData);
+  const setDeskData = useStudioStore((state) => state.setDeskData);
 
-      <Canvas mode='concurrent' shadows>
-        <StudioScene />
+  // get all necessary data
+  const getData = async () => {
+    const bookShelfData = await getBookShelfData();
+    const monitorData = await getMonitorData();
+    const deskData = await getDeskData();
+    setBookshelfData(bookShelfData);
+    setMonitorData(monitorData);
+    setDeskData(deskData);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div className="App">
+      <DomMain />
+      <Canvas concurrent colorManagement>
+        {bookshelfData && monitorData && deskData && <StudioScene />}
       </Canvas>
+      <Message content={message} />
+      {/* <MissionPanel /> */}
     </div>
   );
 }
-
-const styles: AppStyleSheet = {
-  app: {
-    width: '100%',
-    height: '100%',
-  },
-};
 
 export default App;
