@@ -1,4 +1,4 @@
-import colors from '../config/colors';
+import { gradientColors } from '../config/colors';
 import { Mission, Subject } from '../types';
 
 export const missions: Mission[] = [
@@ -386,19 +386,19 @@ export const fakeSubjects: Subject[] = [
   {
     id: 'dfaefdna1',
     name: 'Javascript',
-    color: colors.yellow,
+    colors: gradientColors.iceBlue,
     total: 10,
   },
   {
     id: 'dasfnowefng',
     name: 'Java',
-    color: colors.red,
+    colors: gradientColors.lightRed,
     total: 14,
   },
   {
     id: 'gawejpkjbadfw',
     name: 'Node.js',
-    color: colors.ultraGreen,
+    colors: gradientColors.orange,
     total: 14,
   },
 ];

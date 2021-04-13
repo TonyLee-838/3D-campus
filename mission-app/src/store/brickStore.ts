@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import * as THREE from 'three';
 import create, { State } from 'zustand';
-import colors from '../config/colors';
+import { gradientColors } from '../config/colors';
 import { PointerLocations } from '../types';
 import { useMissionStore, useSubjectColorMap } from './missionStore';
 
@@ -51,20 +51,11 @@ export const useBrickArray = () => {
 
     const bricks = sorted.map((mission) => ({
       id: mission.id,
-      color: mission.completed ? colorMap[mission.subjectId] : colors.grey,
+      colors: mission.completed ? colorMap[mission.subjectId] : gradientColors.grey,
     }));
-
-    // const colorArray = Float32Array.from(
-    //   mapped.flatMap((mission, i) =>
-    //     tempColor.set(sorted[i].completed ? mission.color : colors.grey).toArray()
-    //   )
-    // );
-    // const stepArray = Float32Array.from(mapped.map((mission) => +mission.id));
 
     return {
       bricks,
-      // colorArray,
-      // stepArray,
       currentIndex,
     };
   }, [colorMap, missions, selectedSubjectId, tempColor]);

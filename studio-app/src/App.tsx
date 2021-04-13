@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 // Three
-import { Canvas } from "react-three-fiber";
-import { softShadows } from "@react-three/drei";
+import { Canvas } from 'react-three-fiber';
+import { softShadows } from '@react-three/drei';
 
 // Components
-import DomMain from "./components/dom/DomMain";
-import StudioScene from "./components/three/studio/StudioScene";
-import Message from "./components/dom/Message";
-import Aim from "./components/dom/Aim";
+import DomMain from './components/dom/DomMain';
+import StudioScene from './components/three/studio/StudioScene';
+import Message from './components/dom/Message';
+import Aim from './components/dom/Aim';
 
 // Hooks
-import { useStudioStore } from "./store/studioStore";
+import { useStudioStore } from './store/studioStore';
 
 // Http
-import { getBookShelfData, getMonitorData, getDeskData } from "./http/studio";
-import MissionPanel from "./components/dom/MissionPanel";
+import { getBookShelfData, getMonitorData, getDeskData } from './http/studio';
+import MissionPanel from './components/dom/MissionPanel';
 
 // softShadows({
 //   frustum: 3.75, // Frustum width (default: 3.75) must be a float
@@ -48,7 +48,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className='App'>
       <DomMain />
       <Canvas concurrent colorManagement>
         {bookshelfData && monitorData && deskData && <StudioScene />}

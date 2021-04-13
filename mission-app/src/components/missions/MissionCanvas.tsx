@@ -16,13 +16,8 @@ const MissionCanvas = () => {
   return (
     <div style={styles.container}>
       <div style={styles.canvasContainer}>
-        <Pointer />
-        {/* <Bricks /> */}
-        {/* <Canvas camera={{ position: [3.5, 1.5, 0] }}>
-          <Bricks />
-          <Lights />
-          <Pointer />
-        </Canvas> */}
+        <div style={styles.pointer}>{/* <Pointer /> */}</div>
+        <Bricks />
       </div>
       {hoveredId && <MissionInfoCard />}
     </div>
@@ -40,6 +35,13 @@ const styles: AppStyleSheet = {
     display: 'flex',
     flexDirection: 'column',
   },
+  pointer: {
+    position: 'absolute',
+    top: '30%',
+    left: '50%',
+    zIndex: 99,
+  },
+  bricks: {},
 };
 
 export default MissionCanvas;
