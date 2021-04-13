@@ -7,9 +7,12 @@ const packageJson = require('../package.json');
 
 const devConfig = {
   mode: 'development',
+
+  output: {
+    publicPath: 'http://localhost:8082/',
+  },
   devServer: {
     port: 8082,
-    publicPath: 'http://localhost:8082/',
     historyApiFallback: {
       index: 'index.html',
     },
@@ -32,7 +35,6 @@ const devConfig = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    new HotModuleReplacementPlugin(),
   ],
 };
 

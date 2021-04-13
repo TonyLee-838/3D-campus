@@ -1,5 +1,6 @@
-import { StyleSheet } from "../../types/dom";
-import colors from "../../config/colors";
+import React from 'react';
+import { StyleSheet } from '../../types/dom';
+import colors from '../../config/colors';
 // import { useEffect } from "react";
 
 interface MessageProps {
@@ -17,14 +18,14 @@ const Message = ({ content }: MessageProps) => {
 
 const styles: StyleSheet = {
   container: {
-    position: "absolute",
-    left: "12%",
-    top: "1%",
+    position: 'absolute',
+    left: '12%',
+    top: '1%',
     height: 50,
     backgroundColor: colors.grey,
     color: colors.white,
     fontSize: 30,
-    textAlign: "center",
+    textAlign: 'center',
     zIndex: 350,
     opacity: 0.6,
     paddingLeft: 10,

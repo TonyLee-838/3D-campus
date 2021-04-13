@@ -27,7 +27,7 @@ type GLTFResult = GLTF & {
 
 export default function Monitor(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
-  const { nodes, materials } = useGLTF('./3d/monitor/monitor.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF('./public/3d/monitor/monitor.glb') as GLTFResult;
   const monitorData = useStudioStore((state) => state.monitorData);
   const { position, rotation } = monitorData;
   return (
@@ -50,4 +50,4 @@ export default function Monitor(props: JSX.IntrinsicElements['group']) {
   );
 }
 
-useGLTF.preload('./3d/monitor/monitor.glb');
+useGLTF.preload('./public/3d/monitor/monitor.glb');

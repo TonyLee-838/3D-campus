@@ -1,15 +1,15 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 //Three
-import { useThree, useFrame } from "react-three-fiber";
-import { PointerLockControls } from "@react-three/drei";
-import { useSphere } from "@react-three/cannon";
-import { Mesh, Vector3 } from "three";
+import { useThree, useFrame } from 'react-three-fiber';
+import { PointerLockControls } from '@react-three/drei';
+import { useSphere } from '@react-three/cannon';
+import { Mesh, Vector3 } from 'three';
 
 //Hooks
-import { usePlayerControls } from "../../../hooks/useUserControl";
-import colors from "../../../config/colors";
-import { useStudioStore } from "../../../store/studioStore";
+import { usePlayerControls } from '../../../hooks/useUserControl';
+import colors from '../../../config/colors';
+import { useStudioStore } from '../../../store/studioStore';
 
 const SPEED = 15;
 
@@ -21,13 +21,7 @@ const FirstPersonalControl = () => {
   const pointerControlRef = useRef<PointerLockControls>(null!);
   const fogRef = useRef<Mesh>();
 
-  const {
-    moveForward,
-    moveBackward,
-    moveLeft,
-    moveRight,
-    jump,
-  } = usePlayerControls();
+  const { moveForward, moveBackward, moveLeft, moveRight, jump } = usePlayerControls();
 
   const [cylinderRef, api] = useSphere(() => ({
     fixedRotation: false,
@@ -57,11 +51,7 @@ const FirstPersonalControl = () => {
 
     const direction = new Vector3();
 
-    const frontVector = new Vector3(
-      0,
-      0,
-      Number(moveBackward) - Number(moveForward)
-    );
+    const frontVector = new Vector3(0, 0, Number(moveBackward) - Number(moveForward));
     const sideVector = new Vector3(Number(moveLeft) - Number(moveRight), 0, 0);
 
     direction
@@ -82,11 +72,7 @@ const FirstPersonalControl = () => {
     <>
       {/* {if pointerLocked === false, player can't control camera} */}
       {pointerLocked && (
-        <PointerLockControls
-          ref={pointerControlRef}
-          camera={camera}
-          domElement={gl.domElement}
-        />
+        <PointerLockControls ref={pointerControlRef} camera={camera} domElement={gl.domElement} />
       )}
 
       <mesh ref={cylinderRef}>
