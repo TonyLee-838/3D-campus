@@ -8,6 +8,7 @@ import { softShadows } from '@react-three/drei';
 import DomMain from './components/dom/DomMain';
 import StudioScene from './components/three/studio/StudioScene';
 import { AppStyleSheet } from './types';
+import RoomModel from './components/three/studio/RoomModel';
 // import StudioScene from './components/three/studio/StudioScene';
 
 softShadows({
@@ -23,8 +24,9 @@ function App() {
     <div className='App' style={styles.app}>
       <DomMain />
 
-      <Canvas mode='concurrent' shadows>
+      <Canvas mode='concurrent'>
         <StudioScene />
+        {/* <RoomModel /> */}
       </Canvas>
     </div>
   );

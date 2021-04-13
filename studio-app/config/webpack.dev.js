@@ -9,13 +9,14 @@ const devConfig = {
   mode: 'development',
   devServer: {
     port: 8082,
+    publicPath: 'http://localhost:8082/',
     historyApiFallback: {
       index: 'index.html',
     },
   },
-  optimization: {
-    runtimeChunk: 'single',
-  },
+  // optimization: {
+  //   runtimeChunk: 'single',
+  // },
   plugins: [
     new ModuleFederationPlugin({
       name: 'studio',

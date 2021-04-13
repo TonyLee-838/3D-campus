@@ -1,6 +1,6 @@
 import create, { State } from 'zustand';
 
-import { Mission, Subject } from '../types';
+import { GradientColor, Mission, Subject } from '../types';
 
 interface MissionStoreState extends State {
   missions: Mission[];
@@ -26,10 +26,10 @@ export const useSubjectColorMap = () => {
   const { subjects } = useMissionStore();
 
   return subjects.reduce((result, subject) => {
-    result[subject.id] = subject.color;
+    result[subject.id] = subject.colors;
 
     return result;
-  }, {} as { [index: string]: string });
+  }, {} as { [index: string]: GradientColor });
 };
 
 export const useMissionById = (id: string) => {
