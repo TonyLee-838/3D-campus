@@ -1,6 +1,8 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
+import { gradientColors } from '../../config/colors';
 import { useBrickArray, useHoveredId, usePointerLocations } from '../../store/brickStore';
+import { usePagination } from '../../store/globalStore';
 
 import Brick from './Brick';
 
@@ -9,42 +11,47 @@ const getZIndex = (index: number, total: number) => Math.abs(Math.abs(total / 2 
 const Bricks = () => {
   const classes = useBricksStyles();
 
-  const { hoveredId } = useHoveredId();
+  const { hoveredId, setHoveredId } = useHoveredId();
   const { setPointerLocations } = usePointerLocations();
   const { bricks, currentIndex } = useBrickArray();
+  const { paginated } = usePagination(bricks);
 
-  const handleMouseEnter = (event, index) => {
-    console.log(index);
+  const handleMouseMove = (event, id) => {
+    console.log(id);
+
+    event.stopPropagation();
+
+    const pointerLocations = { x: event.clientX, y: event.clientY };
+    setPointerLocations(pointerLocations);
+    if (hoveredId !== id) {
+      setHoveredId(id);
+    }
   };
 
-  const handleMouseLeave = () => {};
+  const handleMouseLeave = () => {
+    setHoveredId('');
+  };
+
+  const randomColor = () => {
+    const e = Object.keys(gradientColors).map((key) => gradientColors[key]);
+
+    return e[Math.floor(Math.random() * e.length)];
+  };
 
   return (
     <div className={classes.scene}>
-      {bricks.slice(1, 20).map((brick, i) => (
+      {paginated.map((brick, i) => (
         <Brick
-          color={brick.color}
+          colors={randomColor()}
           key={brick.id}
-          height={30 + i * 15}
+          height={40 + i * 20}
           hovered={hoveredId === brick.id}
-          onMouseEnter={(event) => handleMouseEnter(event, i)}
+          onMouseMove={(event) => handleMouseMove(event, brick.id)}
           onMouseLeave={handleMouseLeave}
           width={50}
           zIndex={getZIndex(i, 22)}
         />
       ))}
-      {/* {Array.from({ length: 10 }).map((_, i) => (
-        <Brick
-          color=''
-          height={50 + i * 10}
-          key={i}
-          hovered={!!hoveredId}
-          onMouseEnter={(event) => handleMouseEnter(event, i)}
-          onMouseLeave={handleMouseLeave}
-          width={50}
-          zIndex={getZIndex(i, 10)}
-        />
-      ))} */}
     </div>
   );
 };
@@ -59,7 +66,8 @@ const useBricksStyles = createUseStyles((theme) => ({
     perspectiveOrigin: '70% -130px',
     height: '100%',
     width: '100%',
-    overflow: 'hidden',
+    // overflow: 'hidden',
+    transform: 'translateY(300px)',
   },
 }));
 export default Bricks;

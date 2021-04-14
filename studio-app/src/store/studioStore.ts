@@ -1,28 +1,27 @@
 import create, { State } from "zustand";
 
-import {
-  ControlApi,
-  BookshelfData,
-  MonitorData,
-  DeskData,
-} from "../types/index";
+import { ControlApi, ModelData } from "../types/index";
 
 interface StudioStoreState extends State {
   controlApi: ControlApi;
   pointerLocked: boolean;
   message: string;
   selectedBookId: number;
-  bookshelfData: BookshelfData;
-  monitorData: MonitorData;
-  deskData: DeskData;
+  bookshelfData: ModelData;
+  monitorData: ModelData;
+  deskData: ModelData;
+  npcData: ModelData;
+  noteData: ModelData;
 
   setControlApi: (controlApi: ControlApi) => void;
   setPointerLocked: (pointerLocked: boolean) => void;
   setMessage: (message: string) => void;
   setSelectedBookId: (selectedBookId: number) => void;
-  setBookshelfData: (bookshelfData: BookshelfData) => void;
-  setMonitorData: (monitorData: MonitorData) => void;
-  setDeskData: (deskData: DeskData) => void;
+  setBookshelfData: (bookshelfData: ModelData) => void;
+  setMonitorData: (monitorData: ModelData) => void;
+  setDeskData: (deskData: ModelData) => void;
+  setNPCData: (npcData: ModelData) => void;
+  setNoteData: (noteData: ModelData) => void;
 }
 
 export const useStudioStore = create<StudioStoreState>((set) => ({
@@ -33,12 +32,16 @@ export const useStudioStore = create<StudioStoreState>((set) => ({
   bookshelfData: null,
   monitorData: null,
   deskData: null,
+  npcData: null,
+  noteData: null,
 
   setControlApi: (controlApi) => set({ controlApi }),
   setPointerLocked: (pointerLocked) => set({ pointerLocked }),
   setMessage: (message: string) => set({ message }),
   setSelectedBookId: (selectedBookId: number) => set({ selectedBookId }),
-  setBookshelfData: (bookshelfData: BookshelfData) => set({ bookshelfData }),
-  setMonitorData: (monitorData: MonitorData) => set({ monitorData }),
-  setDeskData: (deskData: DeskData) => set({ deskData }),
+  setBookshelfData: (bookshelfData: ModelData) => set({ bookshelfData }),
+  setMonitorData: (monitorData: ModelData) => set({ monitorData }),
+  setDeskData: (deskData: ModelData) => set({ deskData }),
+  setNPCData: (npcData: ModelData) => set({ npcData }),
+  setNoteData: (noteData: ModelData) => set({ noteData }),
 }));

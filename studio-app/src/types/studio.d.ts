@@ -4,37 +4,27 @@ export type ControlApi = Api[1];
 
 export type Dims3 = [number, number, number];
 
-export type BookModelType = "b1" | "b2" | "b3";
-export type BookshelfModelType = "b1" | "b2" | "b3";
-export type MonitorModelType = "m1" | "m2" | "m3";
-export type DeskModelType = "d1" | "d2" | "d3";
+export type ModelType = number;
 
-export interface BookshelfData {
+export interface ModelData {
   position: Dims3;
   rotation: Dims3;
-  modelType: BookshelfModelType;
+  modelType?: ModelType;
 }
 
-export interface BookData {
+export interface BookModelData extends ModelData {
   id: number;
-  position: Dims3;
-  rotation: Dims3;
-  modelType: BookModelType;
 }
 
-export interface MonitorData {
-  position: Dims3;
-  rotation: Dims3;
-  modelType: MonitorModelType;
-}
-
-export interface DeskData {
-  position: Dims3;
-  rotation: Dims3;
-  modelType: DeskModelType;
+export interface BookContent {
+  id: number;
+  name: string;
+  videoUrl: string;
 }
 
 export type MissionStatus = "finished" | "doing" | "no-assigin";
+
+export type MissionType = "exercise" | "vedio";
 
 export interface MissionData {
   courseId: number;
@@ -42,6 +32,7 @@ export interface MissionData {
   missionId: number;
   missionName: string;
   status: MissionStatus;
+  type: MissionType;
 }
 
 export interface MissionsData {

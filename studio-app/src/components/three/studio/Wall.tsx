@@ -15,7 +15,7 @@ const Wall = ({ rotationY }: WallProps) => {
     <group rotation={[0, rotationY, 0]} position={[0, 0, 0]}>
       <mesh
         rotation={[Math.PI / 2, 0, Math.PI / 2]}
-        position={[8, 20, 0]}
+        position={[15, 20, 0]}
         // ref={wallRef}
       >
         <boxBufferGeometry args={[60, 0.01, 40]} />

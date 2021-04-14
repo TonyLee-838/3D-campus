@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 // components
 import VideoPlayer from "./VedioPlayer";
 import { IconButton } from "@material-ui/core";

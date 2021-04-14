@@ -1,26 +1,33 @@
 import React, { MouseEventHandler, useState } from 'react';
 
 import { createUseStyles } from 'react-jss';
-import colors from '../../config/colors';
+import { GradientColor } from '../../types';
 
 interface BrickProps {
-  color: string;
+  colors: GradientColor;
   depth?: number;
   height: number;
   margin?: number;
   hovered: boolean;
-  onMouseEnter: MouseEventHandler<HTMLDivElement>;
+  onMouseMove: MouseEventHandler<HTMLDivElement>;
   onMouseLeave: () => void;
   width?: number;
   zIndex: number;
 }
+
+const getBackgroundStyle = (colors) => {
+  const fromString = colors.from.map((color) => color + ' 0%');
+  const toString = colors.to.map((color) => color + ' 100%');
+
+  return `linear-gradient(to bottom, ${fromString},${toString})`;
+};
 
 const Brick = (props: BrickProps) => {
   const defaultProps = { width: 70, depth: 300, margin: 50 };
   const classes = useBrickStyles({ ...defaultProps, ...props });
 
   return (
-    <div className={classes.cube} onMouseEnter={props.onMouseEnter} onMouseLeave={props.onMouseLeave}>
+    <div className={classes.cube} onMouseOver={props.onMouseMove} onMouseLeave={props.onMouseLeave}>
       <div className={classes.front} />
       <div className={classes.back} />
       <div className={classes.left} />
@@ -46,11 +53,10 @@ const useBrickStyles = createUseStyles<string, BrickProps>((theme) => ({
     zIndex: (props: BrickProps) => props.zIndex,
 
     '& div': {
-      background: (props: BrickProps) =>
-        `linear-gradient(to bottom, ${colors.white} 0%, ${props.color} 70%)`,
-      opacity: 0.8,
+      background: (props: BrickProps) => getBackgroundStyle(props.colors),
+      opacity: 0.6,
       position: 'absolute',
-      boxShadow: '0px -2px 2px rgba(20, 20, 20, 0.3)',
+      boxShadow: '0px 0px 2px #ffffff',
     },
   },
   front: {
@@ -91,34 +97,5 @@ const useBrickStyles = createUseStyles<string, BrickProps>((theme) => ({
     height: (props: BrickProps) => props.width,
   },
 }));
-
-const LENGTH = 10;
-const getZIndex = (index: number, total: number) =>
-  Math.floor(Math.abs(total / 2 - Math.abs(total / 2 - index)));
-
-// const MyBricks = () => {
-//   const classes = useBricksStyles();
-//   return (
-//     <div className={classes.scene}>
-//       {Array.from({ length: LENGTH }).map((_, i) => (
-//         <Brick color='' height={50 + i * 10} width={50} key={i} zIndex={getZIndex(i, LENGTH)} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// const useBricksStyles = createUseStyles((theme) => ({
-//   scene: {
-//     display: 'flex',
-//     flexDirection: 'row',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     // position: 'relative',
-//     perspective: '1200px',
-//     perspectiveOrigin: '70% -130px',
-//     height: '100%',
-//     width: '100%',
-//   },
-// }));
 
 export default Brick;

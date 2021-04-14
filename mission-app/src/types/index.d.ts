@@ -22,5 +22,13 @@ export interface Subject {
   id: string;
   name: string;
   total: number;
-  color: string;
+  colors: {
+    from: string[];
+    to: string[];
+  };
+}
+
+export interface GradientColor {
+  from: string[];
+  to: string[];
 }

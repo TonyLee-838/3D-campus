@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 // components
 import AppScene from "../basic/AppScene";
 import Books from "./Books";
-// import BookShelf from "./Bookshelf-backup";
 import Bookshelf from "./Bookshelf";
 import Ceiling from "./Ceiling";
 import Circles from "./Circles";
@@ -11,13 +10,17 @@ import Desk from "./Desk";
 import Floor from "./Floor";
 import Monitor from "./Monitor";
 import Wall from "./Wall";
-import Room from "./Room";
+import NPC from "./NPC";
+import Note from "./Note";
+import CoordinateSystem from "../basic/CoordinateSystem";
 
 const StudioScene = () => {
   return (
     <AppScene>
+      {/* <CoordinateSystem /> */}
       <Books />
-      {/* <Room /> */}
+      <Note />
+      <NPC />
       <Bookshelf />
       <Circles />
       <Ceiling />

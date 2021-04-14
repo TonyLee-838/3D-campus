@@ -5,14 +5,14 @@ const AppLights = () => {
 
   return (
     <>
-      <ambientLight color={"#ffffff"} intensity={1} />
+      <ambientLight color={"#ffffff"} intensity={0.7} />
 
       <directionalLight
         ref={sunRef}
         // castShadow
         color={"#fff0cc"}
         position={[-200, 200, 200]}
-        intensity={1.5}
+        intensity={1}
         // shadow-mapSize-width={1280}
         // shadow-mapSize-height={1280}
         // shadow-mapSize-left={-256}
@@ -23,7 +23,7 @@ const AppLights = () => {
       <directionalLight
         color={"#fff0cc"}
         position={[200, 200, -200]}
-        intensity={1.5}
+        intensity={1}
       />
     </>
   );

@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from "react";
+
+// components
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+import {
+  AppBar,
+  Tabs,
+  Tab,
+  MenuItem,
+  Select,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  ListItemIcon,
+  Button,
+  IconButton,
+} from "@material-ui/core";
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import Button from "@material-ui/core/Button";
+import { LiveTv, Create, Cancel } from "@material-ui/icons";
+// types
+import { MissionData, MissionsData } from "../../types/index";
 
-import { MissionData, MissionsData, MissionStatus } from "../../types/index";
+// http
 import { getMissionsData } from "../../http/studio";
 
-// copy...
-interface TabPanelProps {
-  children?: React.ReactNode;
-  value: any;
-}
-
 type CourseData = Array<string>;
-
 const missionStatusTable = {
   doing: {
     text: "正在执行",
@@ -40,8 +42,7 @@ const missionStatusTable = {
     disabled: false,
   },
 };
-
-// copy...
+// copy ...
 function a11yProps(index: any) {
   return {
     id: `simple-tab-${index}`,
@@ -49,20 +50,29 @@ function a11yProps(index: any) {
   };
 }
 
+// styles
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    width: 360,
+    width: 460,
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+    transform: "translateX(-50%) translateY(-50%)",
   },
   list: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: 460,
     backgroundColor: theme.palette.background.paper,
+  },
+  disabledBtn: {
+    backgroundColor: "unset",
+    color: "grey",
   },
 }));
 
-const MissionPanel = () => {
+const MissionPanel = ({ handleClose }) => {
   const classes = useStyles();
   // tab value
   const [value, setValue] = useState<number>(0);
@@ -77,19 +87,37 @@ const MissionPanel = () => {
 
   const handleChangeTab = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+    getShownMissionsData(course, newValue);
   };
 
   const handleCourseChange = (event: React.ChangeEvent<{ value: string }>) => {
     setCourse(event.target.value);
-    const _shownMissionsData: MissionData[] = [];
-    if (event.target.value === "all") {
-      for (let i in missionsData) {
-        const item = missionsData[i];
+    getShownMissionsData(event.target.value, value);
+  };
+
+  const getShownMissionsData = (
+    course: string = "all",
+    tabValue: number = 0,
+    data = null
+  ) => {
+    // 根据所选科目进行任务的分类
+    let _shownMissionsData: MissionData[] = [];
+    data = data || missionsData;
+    if (course === "all") {
+      for (let i in data) {
+        const item = data[i];
         _shownMissionsData.push(...item);
       }
     } else {
-      _shownMissionsData.push(...missionsData[event.target.value]);
+      _shownMissionsData.push(...missionsData[course]);
     }
+    // 根据所选tab栏目进行任务的过滤
+    _shownMissionsData = _shownMissionsData.filter((item) => {
+      if (tabValue === 1) {
+        return item.status === "finished";
+      }
+      return item.status !== "finished";
+    });
     setShownMissionsData(_shownMissionsData);
   };
 
@@ -97,12 +125,21 @@ const MissionPanel = () => {
     const data = await getMissionsData(1, 1);
     setMissionsData(data);
     setCoursesData(Object.keys(data));
-    const _shownMissionsData: MissionData[] = [];
-    for (let i in data) {
-      const item = data[i];
-      _shownMissionsData.push(...item);
+    getShownMissionsData("all", 0, data);
+  };
+
+  const handleReceiveMission = (id) => {
+    const _missionsData = missionsData;
+    for (let i in _missionsData) {
+      const item = _missionsData[i];
+      item.forEach((mission) => {
+        if (mission.missionId === id) {
+          mission.status = "doing";
+        }
+      });
     }
-    setShownMissionsData(_shownMissionsData);
+    setMissionsData(_missionsData);
+    getShownMissionsData(course, value, _missionsData);
   };
 
   useEffect(() => {
@@ -111,7 +148,8 @@ const MissionPanel = () => {
 
   return (
     <div className={classes.root}>
-      <div>
+      {/* 选择器 */}
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <h4 style={{ display: "inline", margin: 10 }}>按科目查看任务：</h4>
         <Select
           labelId="demo-simple-select-label"
@@ -127,29 +165,45 @@ const MissionPanel = () => {
               </MenuItem>
             ))}
         </Select>
+        {/* 关闭图标 */}
+        <IconButton
+          aria-label="cancel"
+          style={{ position: "absolute", right: 6 }}
+          onClick={handleClose}
+        >
+          <Cancel />
+        </IconButton>
       </div>
-
+      {/* Tab栏 */}
       <AppBar position="static" style={{ marginTop: 10 }}>
         <Tabs
           value={value}
           onChange={handleChangeTab}
           aria-label="simple tabs example"
+          variant="fullWidth"
         >
           <Tab label="未完成任务" {...a11yProps(0)} />
           <Tab label="已完成任务" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-
-      <List className={classes.list}>
+      {/* 列表 */}
+      <List className={classes.list} style={{ overflowY: "auto", height: 450 }}>
         {shownMissionsData &&
           shownMissionsData.map((item, i) => (
             <ListItem key={`list-item-${i}`}>
+              <ListItemIcon style={{ marginRight: 20 }}>
+                {item.type === "vedio" ? <LiveTv /> : <Create />}
+                {item.type === "vedio" ? "视频" : "习题"}
+              </ListItemIcon>
               <ListItemText primary={item.missionName} />
               <ListItemSecondaryAction>
                 <Button
                   variant="contained"
                   color={missionStatusTable[item.status].color as any}
                   disabled={missionStatusTable[item.status].disabled}
+                  onClick={() => {
+                    handleReceiveMission(item.missionId);
+                  }}
                 >
                   {missionStatusTable[item.status].text}
                 </Button>
