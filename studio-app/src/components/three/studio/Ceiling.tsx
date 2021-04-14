@@ -1,5 +1,7 @@
-import React from 'react';
-import colors from '../../../config/colors';
+import React from "react";
+
+// config
+import colors from "../../../config/colors";
 
 const Ceiling = () => {
   return (

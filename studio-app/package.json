@@ -12,7 +12,9 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-fps": "^1.0.4",
+    "react-jss": "^10.6.0",
     "react-player": "^2.9.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-spring": "^9.0.0",
     "react-three-fiber": "^5.3.20",
@@ -23,39 +25,33 @@
     "zustand": "^3.4.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-transform-flow-strip-types": "^7.13.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
+    "@babel/plugin-transform-runtime": "^7.13.15",
+    "@babel/preset-react": "^7.13.13",
+    "@babel/preset-typescript": "^7.13.0",
     "@react-three/test-renderer": "^6.0.1",
-    "@testing-library/jest-dom": "^5.11.10",
-    "@testing-library/react": "^11.2.6",
-    "@testing-library/user-event": "^12.8.3",
     "@types/jest": "^26.0.22",
     "@types/node": "^12.20.7",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
+    "@types/react-router-dom": "^5.1.7",
     "@types/three": "^0.126.2",
-    "@types/uuid": "^8.3.0"
+    "@types/uuid": "^8.3.0",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.1",
+    "file-loader": "^6.2.0",
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.1",
+    "style-loader": "^2.0.0",
+    "typescript": "^4.2.4",
+    "webpack": "^5.31.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2",
+    "webpack-merge": "^5.7.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start": "webpack serve --config config/webpack.dev.js"
   }
 }

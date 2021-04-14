@@ -1,118 +1,164 @@
-// types
-import { Dims3 } from "../types/index";
-import { Camera } from "three";
+import { useState } from "react";
 
-// config
-import { DISTANCE, SUITABLE_RADIUS, PLAYER_HEIGHT } from "../config/studio";
+// three
+import { useThree } from "react-three-fiber";
+import { useSpring } from "react-spring/three";
 
 // hooks
 import { useStudioStore } from "../store/studioStore";
 
-const getDistanceBetweenTwoPoints = (
-  x1: number,
-  z1: number,
-  x2: number,
-  z2: number
-) => {
-  const dx = x1 - x2;
-  const dz = z1 - z2;
-  return Math.sqrt(dx * dx + dz * dz);
+// types
+import { Dims3, ModelData } from "../types/index";
+
+// utils
+import { getDistanceOfTwoPoints } from "../utils/calculate";
+
+interface Config {
+  // suitable distance that target model away from user
+  distance?: number;
+  // suitable circle radius
+  suitableRadius?: number;
+  // height where camera look at (in other word,it's height of user)
+  heightOfLookAt?: number;
+  // the fraction distance between user and target model, default is 1/3
+  distanceFraction?: number;
+  // the height which the positionY of sub model should add
+  heightOfSubModelFineTune?: number;
+
+  // rotateZ?: number;
+}
+
+interface SubModelData extends ModelData {
+  startAnimationFunction?: () => void;
+  endAnimationFunction?: () => void;
+}
+
+interface UseSuitablePosition {
+  (modelData: ModelData, subModelData?: SubModelData, config?: Config);
+}
+
+const defaultConfig: Config = {
+  distance: 2.5,
+  heightOfLookAt: 2.3,
+  distanceFraction: 1 / 2,
+  heightOfSubModelFineTune: 0.2,
+  suitableRadius: 1.2,
+  // rotateZ: 0,
 };
 
-// Instructions for using this hook
-// 1. The original point of target object must in the bottom center of this target object
-// 2. The original direction of target object must point to the positive Z axis
-// 3. The original direction of sub target object must point to the positive Z axis
-// For example, bookshelf is a target object, book is a sub target object
-
-export const useSuitablePosition = (
-  camera: Camera,
-  targetObjectPosition: Dims3,
-  targetObjectRotation: Dims3
+export const useSuitablePosition: UseSuitablePosition = (
+  modelData,
+  subModelData,
+  config = defaultConfig
 ) => {
-  const position = targetObjectPosition;
-  const rotation = targetObjectRotation;
+  // init
+  const { camera } = useThree();
+  const [activity, setActivity] = useState<boolean>(false);
+  const setMessage = useStudioStore((state) => state.setMessage);
+  const controlApi = useStudioStore((state) => state.controlApi);
+  const setPointerLocked = useStudioStore((state) => state.setPointerLocked);
+  const { position: modelPosition, rotation: modelRotation } = modelData;
+  const { position: subModelPosition, rotation: subModelRotation } =
+    subModelData || modelData;
+
+  Object.keys(defaultConfig).forEach((key) => {
+    config[key] = config[key] || defaultConfig[key];
+  });
 
   const suitableX =
-    Math.cos(Math.PI / 2 - rotation[1]) * DISTANCE + position[0];
-  const suitableY = position[1] + 1;
+    Math.cos(Math.PI / 2 - modelRotation[1]) * config.distance +
+    modelPosition[0];
+  const suitableY = modelPosition[1] + 1;
   const suitableZ =
-    Math.sin(Math.PI / 2 - rotation[1]) * DISTANCE + position[2];
+    Math.sin(Math.PI / 2 - modelRotation[1]) * config.distance +
+    modelPosition[2];
 
-  // the suitable position which player should in
-  const getSuitablePositionForPlayer = (): Dims3 => {
-    return [suitableX, 0.1, suitableZ];
-  };
+  const suitablePositionForPlayer = [suitableX, 0.1, suitableZ];
 
-  // judege if player is in suitable position for target object
-  const isPlayerInSuitablePosition = (): boolean => {
+  const playerInSuitablePosition = (message?: string): boolean => {
     const { x: cameraX, z: cameraZ } = camera.position;
-    const distance = getDistanceBetweenTwoPoints(
+    const distance = getDistanceOfTwoPoints(
       cameraX,
       cameraZ,
       suitableX,
       suitableZ
     );
-    return distance <= SUITABLE_RADIUS;
+    const result = distance <= config.suitableRadius;
+    if (!result) setMessage(message);
+    return result;
   };
 
-  const controlApi = useStudioStore((state) => state.controlApi);
-  const setPointerLocked = useStudioStore((state) => state.setPointerLocked);
-
-  // move player to a suitable position for target object
-  const movePlayerToSuitablePosition = (): void => {
+  const startActivity = (message?: string): void => {
+    setMessage(message);
     controlApi.position.set(suitableX, suitableY, suitableZ);
+    camera.lookAt(modelPosition[0], config.heightOfLookAt, modelPosition[2]);
+    if (subModelData) {
+      setActivity(true);
+      if (subModelData.startAnimationFunction)
+        subModelData.startAnimationFunction();
+    }
     setTimeout(() => {
-      console.log("position set");
       controlApi.position.set(suitableX, suitableY, suitableZ);
+      camera.lookAt(modelPosition[0], config.heightOfLookAt, modelPosition[2]);
+      setTimeout(() => {
+        setPointerLocked(false);
+      }, 100);
     }, 200);
   };
 
-  // make player look at suitable direction for target object
-  const playerLookAtSuitableDirection = (): void => {
-    camera.lookAt(position[0], PLAYER_HEIGHT + 0.5, position[2]);
-    setTimeout(() => {
-      camera.lookAt(position[0], PLAYER_HEIGHT + 0.5, position[2]);
-    }, 200);
+  const endActivity = (message?: string): void => {
+    if (subModelData) {
+      setActivity(false);
+      if (subModelData.endAnimationFunction)
+        subModelData.endAnimationFunction();
+    }
+    setMessage(message);
+    setPointerLocked(true);
   };
 
-  const makePlayerSuitable = (): void => {
-    movePlayerToSuitablePosition();
-    playerLookAtSuitableDirection();
-    setTimeout(() => {
-      setPointerLocked(false);
-    }, 200);
-  };
-
-  // suitable rotation that makes player can watch the front-side of sub target object
-  const getSuitableRotationForSubTargetObject = (): Dims3 => {
-    return rotation;
-  };
-
-  // get suitable position that makes player can watch sub target object in a good distance
-  const getSuitablePositionForSubTargetObject = (
-    distanceFromPlayer: number = 1 / 2
-  ): Dims3 => {
+  const getSubModelAnimation = (): { position: Dims3; rotation: Dims3 } => {
+    const rotation: Dims3 = modelRotation;
+    // rotation[2] += config.rotateZ;
     const fineTuningFactor = 0.05;
     const x =
       suitableX +
-      (position[0] - suitableX) * distanceFromPlayer -
+      (modelPosition[0] - suitableX) * config.distanceFraction -
       fineTuningFactor;
-    const y = PLAYER_HEIGHT + 0.6;
+    const y = config.heightOfLookAt + config.heightOfSubModelFineTune;
     const z =
       suitableZ +
-      (position[2] - suitableZ) * distanceFromPlayer +
+      (modelPosition[2] - suitableZ) * config.distanceFraction +
       fineTuningFactor;
-    return [x, y, z];
+    const position: Dims3 = [x, y, z];
+
+    return { position, rotation };
   };
 
+  const {
+    position: animationPosition,
+    rotation: animationRotation,
+  } = getSubModelAnimation();
+
+  const subModelAnimation = useSpring({
+    position: activity ? animationPosition : subModelPosition,
+    rotation: activity ? animationRotation : subModelRotation,
+  });
+
   return {
-    getSuitablePositionForPlayer,
-    isPlayerInSuitablePosition,
-    // movePlayerToSuitablePosition,
-    // playerLookAtSuitableDirection,
-    makePlayerSuitable,
-    getSuitableRotationForSubTargetObject,
-    getSuitablePositionForSubTargetObject,
+    suitablePositionForPlayer,
+    playerInSuitablePosition,
+    startActivity,
+    endActivity,
+    activity,
+    subModelAnimation,
   };
+};
+
+export const getSuitablePositions = (modelsData: ModelData[]) => {
+  const suitablePositions = [];
+  modelsData.forEach((data) => {
+    const { suitablePositionForPlayer } = useSuitablePosition(data);
+    suitablePositions.push(suitablePositionForPlayer);
+  });
+  return suitablePositions;
 };

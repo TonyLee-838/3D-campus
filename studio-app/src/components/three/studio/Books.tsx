@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 import Book from "./Book";
@@ -7,10 +7,10 @@ import Book from "./Book";
 import { getBooksData } from "../../../http/studio";
 
 // type
-import { BookData } from "../../../types/studio";
+import { BookModelData } from "../../../types/studio";
 
 const Books = () => {
-  const [data, setData] = useState<BookData[]>(null);
+  const [data, setData] = useState<BookModelData[]>(null);
   const getData = async () => {
     const data = await getBooksData();
     setData(data);

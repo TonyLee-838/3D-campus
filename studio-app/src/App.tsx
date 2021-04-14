@@ -1,21 +1,27 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
+import "./App.css";
 
 // Three
 import { Canvas } from "react-three-fiber";
 import { softShadows } from "@react-three/drei";
 
 // Components
+import MissionPanel from "./components/dom/MissionPanel";
 import DomMain from "./components/dom/DomMain";
-import StudioScene from "./components/three/studio/StudioScene";
 import Message from "./components/dom/Message";
-import Aim from "./components/dom/Aim";
+import StudioScene from "./components/three/studio/StudioScene";
 
 // Hooks
 import { useStudioStore } from "./store/studioStore";
 
 // Http
-import { getBookShelfData, getMonitorData, getDeskData } from "./http/studio";
-import MissionPanel from "./components/dom/MissionPanel";
+import {
+  getBookShelfData,
+  getMonitorData,
+  getDeskData,
+  getNPCData,
+  getNoteData,
+} from "./http/studio";
 
 // softShadows({
 //   frustum: 3.75, // Frustum width (default: 3.75) must be a float
@@ -27,21 +33,19 @@ import MissionPanel from "./components/dom/MissionPanel";
 
 function App() {
   const message = useStudioStore((state) => state.message);
-  const bookshelfData = useStudioStore((state) => state.bookshelfData);
-  const monitorData = useStudioStore((state) => state.monitorData);
-  const deskData = useStudioStore((state) => state.deskData);
   const setBookshelfData = useStudioStore((state) => state.setBookshelfData);
   const setMonitorData = useStudioStore((state) => state.setMonitorData);
   const setDeskData = useStudioStore((state) => state.setDeskData);
+  const setNPCData = useStudioStore((state) => state.setNPCData);
+  const setNoteData = useStudioStore((state) => state.setNoteData);
 
   // get all necessary data
   const getData = async () => {
-    const bookShelfData = await getBookShelfData();
-    const monitorData = await getMonitorData();
-    const deskData = await getDeskData();
-    setBookshelfData(bookShelfData);
-    setMonitorData(monitorData);
-    setDeskData(deskData);
+    setBookshelfData(await getBookShelfData());
+    setMonitorData(await getMonitorData());
+    setDeskData(await getDeskData());
+    setNPCData(await getNPCData());
+    setNoteData(await getNoteData());
   };
   useEffect(() => {
     getData();
@@ -51,10 +55,13 @@ function App() {
     <div className="App">
       <DomMain />
       <Canvas concurrent colorManagement>
-        {bookshelfData && monitorData && deskData && <StudioScene />}
+        <Suspense fallback={null}>
+          <StudioScene />
+        </Suspense>
       </Canvas>
       <Message content={message} />
-      {/* <MissionPanel /> */}
+
+      {/* <MissionPanel handleClose={() => {}}></MissionPanel> */}
     </div>
   );
 }

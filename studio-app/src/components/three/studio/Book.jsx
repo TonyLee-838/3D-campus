@@ -1,62 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
 
-// Three
+// three
 import { useGLTF, useAnimations, Html } from "@react-three/drei";
 import { useSpring, a } from "react-spring/three";
 import { useThree } from "react-three-fiber";
 
-// Components
+// components
 import BookContent from "../../dom/BookContent";
 
-// Hooks
+// hooks
 import { useStudioStore } from "../../../store/studioStore";
 import { useSuitablePosition } from "../../../hooks/useSuitablePosition";
-// import { useConfiguredGLTF } from '../../../hooks/useConfiguredGLTF'
 
 export default function Book({ position, rotation }) {
   const group = useRef();
-  const { nodes, materials, animations } = useGLTF("./3d/book/book.gltf");
-  const { actions } = useAnimations(animations, group);
+  const { nodes, materials, animations } = useGLTF(
+    "./public/3d/book/book.gltf"
+  );
+  const { actions, mixer } = useAnimations(animations, group);
   useEffect(() => {
     const animation = actions["Take 01"];
     animation.repetitions = 1;
-    // console.log("booknode", nodes);
+
+    mixer.addEventListener("finished", (e) => {
+      console.log(mixer);
+      console.log("finished", e);
+    });
   }, [actions]);
 
-  const { camera } = useThree();
-  const [open, setOpen] = useState(false);
-
-  const setMessage = useStudioStore((state) => state.setMessage);
-  const setPointerLocked = useStudioStore((state) => state.setPointerLocked);
   const bookshelfData = useStudioStore((state) => state.bookshelfData);
 
-  const {
-    isPlayerInSuitablePosition,
-    getSuitablePositionForSubTargetObject,
-    getSuitableRotationForSubTargetObject,
-    makePlayerSuitable,
-  } = useSuitablePosition(
-    camera,
-    bookshelfData.position,
-    bookshelfData.rotation
-  );
-
-  const openBook = useSpring({
-    rotation: open ? getSuitableRotationForSubTargetObject() : rotation,
-    position: open ? getSuitablePositionForSubTargetObject() : position,
-  });
-
-  const handleOpenBook = () => {
-    // if (!isPlayerInSuitablePosition()) {
-    //   return setMessage("请站到书架前指定位置！");
-    // }
-    setMessage("正在学习...");
-    playInOrder();
-    makePlayerSuitable();
-  };
-
   const playInOrder = () => {
-    setOpen(true);
     const animation = actions["Take 01"];
     animation.reset();
     animation.clampWhenFinished = true;
@@ -64,7 +38,6 @@ export default function Book({ position, rotation }) {
     animation.play();
   };
   const playInReverse = () => {
-    setOpen(false);
     const animation = actions["Take 01"];
     animation.reset();
     animation.timeScale = -1;
@@ -72,11 +45,29 @@ export default function Book({ position, rotation }) {
     animation.play();
   };
 
-  const handleCloseBook = () => {
-    setMessage("学习完成...");
-    playInReverse();
-    setPointerLocked(true);
+  const {
+    activity,
+    startActivity,
+    endActivity,
+    subModelAnimation,
+    playerInSuitablePosition,
+  } = useSuitablePosition(bookshelfData, {
+    position,
+    rotation,
+    startAnimationFunction: playInOrder,
+    endAnimationFunction: playInReverse,
+  });
+
+  const handleOpenBook = () => {
+    if (playerInSuitablePosition("请站到书柜前")) {
+      startActivity("开始读书");
+    }
   };
+  const handleCloseBook = () => {
+    endActivity("读书完成");
+  };
+
+  const openBook = subModelAnimation;
 
   return (
     <group ref={group} dispose={null} onClick={handleOpenBook}>
@@ -87,7 +78,7 @@ export default function Book({ position, rotation }) {
         scale={[0.3, 0.3, 0.3]}
       >
         <primitive object={nodes.Armature_rootJoint} />
-        {open && (
+        {activity && (
           <Html center>
             <BookContent handleClose={handleCloseBook} />
           </Html>
@@ -107,4 +98,4 @@ export default function Book({ position, rotation }) {
   );
 }
 
-useGLTF.preload("./3d/book/book.gltf");
+useGLTF.preload("./public/3d/book/book.gltf");

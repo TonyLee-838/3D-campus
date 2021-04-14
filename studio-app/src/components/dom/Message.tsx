@@ -1,3 +1,4 @@
+import React from "react";
 import { StyleSheet } from "../../types/dom";
 import colors from "../../config/colors";
 // import { useEffect } from "react";
@@ -7,6 +8,7 @@ interface MessageProps {
 }
 
 const Message = ({ content }: MessageProps) => {
+  if (!content) return null;
   let messageRef = null;
   return (
     <div style={styles.container} ref={(ref) => (messageRef = ref)}>

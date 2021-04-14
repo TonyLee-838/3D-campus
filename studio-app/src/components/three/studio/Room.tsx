@@ -20,7 +20,9 @@ type GLTFResult = GLTF & {
 
 export default function Room(props: JSX.IntrinsicElements["group"]) {
   const group = useRef<THREE.Group>();
-  const { nodes, materials } = useGLTF("./3d/room/room.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF(
+    "./public/3d/common/room.glb"
+  ) as GLTFResult;
   return (
     <group ref={group} {...props} dispose={null}>
       <mesh
@@ -32,4 +34,4 @@ export default function Room(props: JSX.IntrinsicElements["group"]) {
   );
 }
 
-useGLTF.preload("./3d/room/room.glb");
+useGLTF.preload("./public/3d/common/room.glb");

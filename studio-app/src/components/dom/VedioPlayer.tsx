@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import ReactPlayer from "react-player";
 import { Style, StyleSheet } from "../../types/dom";
 import { IconButton } from "@material-ui/core";

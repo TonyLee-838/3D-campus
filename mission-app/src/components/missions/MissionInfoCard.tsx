@@ -2,7 +2,7 @@ import React from 'react';
 import { AppStyleSheet } from '../../types';
 import { useHoveredId, usePointerLocations } from '../../store/brickStore';
 import { useMissionById } from '../../store/missionStore';
-import colors from '../../config/colors';
+import { colors } from '../../config/colors';
 
 const MissionInfoCard = () => {
   const { pointerLocations } = usePointerLocations();

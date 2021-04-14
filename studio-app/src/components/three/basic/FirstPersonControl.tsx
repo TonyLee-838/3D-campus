@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 //Three
 import { useThree, useFrame } from "react-three-fiber";
@@ -31,7 +31,7 @@ const FirstPersonalControl = () => {
 
   const [cylinderRef, api] = useSphere(() => ({
     fixedRotation: false,
-    position: [0, 2, -4],
+    position: [0, 5, -18],
     args: 1,
     mass: 50,
     rotation: [0, 0, 0],
@@ -74,7 +74,7 @@ const FirstPersonalControl = () => {
 
     //Allow Double-Jump
     if (jump && Math.abs(Number(velocity.current[1].toFixed(2))) < 0.05) {
-      api.velocity.set(velocity.current[0], 20, velocity.current[2]);
+      api.velocity.set(velocity.current[0], 10, velocity.current[2]);
     }
   });
 
