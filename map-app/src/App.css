@@ -1,0 +1,13 @@
+html,
+body {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #f1f4f8;
+  position: fixed;
+}

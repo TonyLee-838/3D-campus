@@ -1,26 +1,25 @@
-import React from "react";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
-import { CloseRounded } from "@material-ui/icons";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { SchoolsData } from "../../types/ChinaMap";
-import { useState } from "react";
+import React, { useState } from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import { CloseRounded } from '@material-ui/icons';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { SchoolsData } from '../../types/ChinaMap';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: "2px 4px",
-      display: "flex",
-      alignItems: "center",
+      padding: '2px 4px',
+      display: 'flex',
+      alignItems: 'center',
       width: 300,
-      position: "absolute",
-      right: "2%",
-      top: "2%",
+      position: 'absolute',
+      right: '2%',
+      top: '2%',
       zIndex: 200,
     },
     input: {
@@ -33,9 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
     list: {
       maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
-      position: "absolute",
-      top: "10%",
-      right: "2%",
+      position: 'absolute',
+      top: '10%',
+      right: '2%',
       zIndex: 300,
       width: 300,
       borderRadius: 5,
@@ -49,16 +48,13 @@ interface SearchBarProps {
   onSelectSearchResult: (id: number) => void;
 }
 
-export default function SearchBar({
-  searchData,
-  onSelectSearchResult,
-}: SearchBarProps) {
+export default function SearchBar({ searchData, onSelectSearchResult }: SearchBarProps) {
   const classes = useStyles();
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>('');
   const [searchResults, setSearchResults] = useState<SchoolsData[]>([]);
 
   const handleSearch = () => {
-    if (inputValue === "") return;
+    if (inputValue === '') return;
     const _searchResults = [];
     for (let i = 0; i < searchData.length; i++) {
       const item = searchData[i];
@@ -75,33 +71,25 @@ export default function SearchBar({
 
   return (
     <>
-      <Paper component="form" className={classes.root}>
+      <Paper component='form' className={classes.root}>
         <InputBase
           className={classes.input}
-          placeholder="请输入搜索的关键字"
-          inputProps={{ "aria-label": "search google maps" }}
+          placeholder='请输入搜索的关键字'
+          inputProps={{ 'aria-label': 'search google maps' }}
           onChange={(e) => {
             setInputValue(e.target.value);
           }}
         />
-        <IconButton
-          className={classes.iconButton}
-          aria-label="cancel"
-          onClick={handleCancel}
-        >
+        <IconButton className={classes.iconButton} aria-label='cancel' onClick={handleCancel}>
           <CloseRounded />
         </IconButton>
-        <IconButton
-          className={classes.iconButton}
-          aria-label="search"
-          onClick={handleSearch}
-        >
+        <IconButton className={classes.iconButton} aria-label='search' onClick={handleSearch}>
           <SearchIcon />
         </IconButton>
       </Paper>
       {searchResults.length > 0 && (
         <div className={classes.list}>
-          <List component="nav" aria-label="secondary mailbox folder">
+          <List component='nav' aria-label='secondary mailbox folder'>
             {searchResults.map((item) => (
               <ListItem
                 button

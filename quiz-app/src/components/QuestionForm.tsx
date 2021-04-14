@@ -77,18 +77,17 @@ const useStyle = createUseStyles(
       "& div": {
         display: "flex",
         flexDirection: "column",
-        "& *": {
-          fontSize: "32px",
+        "& fieldset": {
           margin: "10px 0",
         },
       },
     },
     description: {
       margin: "5px 15px",
-      fontSize: "32px",
+      fontSize: "16px",
     },
     title: {
-      fontSize: "48px",
+      fontSize: "24px",
       fontWeight: "bolder",
       margin: "5px 15px",
     },

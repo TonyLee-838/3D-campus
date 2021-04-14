@@ -99,13 +99,13 @@ const QuizListScreen = () => {
 const useStyle = createUseStyles(
   {
     mainTitle: {
-      fontSize: "128px",
+      fontSize: "64px",
       margin: "45px 15px",
       // width: '100%',
     },
     menuTitle: {
       margin: "0px 15px",
-      fontSize: "64px",
+      fontSize: "32px",
       // width: '100%',
       "& svg": {
         marginRight: "5px",
@@ -113,12 +113,11 @@ const useStyle = createUseStyles(
       },
     },
     quizTitle: {
-      fontSize: "40px",
+      fontSize: "20px",
     },
     quizContainer: {
       "& *": {
         cursor: "pointer",
-        fontSize: "36px",
       },
     },
   },

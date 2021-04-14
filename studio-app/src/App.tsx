@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from "react";
 import "./App.css";
 
 // Three
+
 import { Canvas } from "react-three-fiber";
 import { softShadows } from "@react-three/drei";
 

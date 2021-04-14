@@ -1,11 +1,12 @@
-import { Shape, Vector3, BufferGeometry } from "three";
+import React from 'react';
+import { Shape, Vector3, BufferGeometry } from 'three';
 import {
   projection,
   mapDepth,
   locationsOfProvinces,
   getMeshCenter,
   getCameraSuitableZPosition,
-} from "./mapTools";
+} from './mapTools';
 
 const Province = ({
   provinceData,
@@ -25,8 +26,8 @@ const Province = ({
     const position = new Vector3(center.x, center.y, z);
     const lookAt = center;
     locationsOfProvinces[name] = {};
-    locationsOfProvinces[name]["position"] = position;
-    locationsOfProvinces[name]["lookAt"] = lookAt;
+    locationsOfProvinces[name]['position'] = position;
+    locationsOfProvinces[name]['lookAt'] = lookAt;
   };
 
   return (
@@ -68,14 +69,8 @@ const Province = ({
                   onClick(e);
                 }}
               >
-                <extrudeGeometry
-                  args={[shape, { depth: mapDepth, bevelEnabled: false }]}
-                />
-                <meshBasicMaterial
-                  color={blockColor}
-                  opacity={0.7}
-                  transparent
-                />
+                <extrudeGeometry args={[shape, { depth: mapDepth, bevelEnabled: false }]} />
+                <meshBasicMaterial color={blockColor} opacity={0.7} transparent />
               </mesh>
             </group>
           );

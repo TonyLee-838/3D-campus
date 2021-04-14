@@ -1,11 +1,7 @@
-import { useState } from "react";
-import { lLToXY, mapDepth } from "./mapTools";
-import { Vector3 } from "three";
-import {
-  SchoolsData,
-  PointerFunction,
-  MouseFunction,
-} from "../../types/ChinaMap";
+import React, { useState } from 'react';
+import { lLToXY, mapDepth } from './mapTools';
+import { Vector3 } from 'three';
+import { SchoolsData, PointerFunction, MouseFunction } from '../../types/ChinaMap';
 
 interface SchoolProps {
   position: Vector3;
@@ -45,7 +41,7 @@ const School = ({
     >
       <cylinderGeometry args={[0.8, 0.8, 1, 10, 1]} />
       <meshBasicMaterial
-        color={isSearched ? "green" : hovered ? "red" : "yellow"}
+        color={isSearched ? 'green' : hovered ? 'red' : 'yellow'}
         transparent
         opacity={0.6}
       />
