@@ -13,38 +13,36 @@ const Sidebar = () => {
 
   return (
     <div id='sidebar'>
-      <Drawer anchor='left' open={sidebarOpen} onClose={() => setSidebarOpen(false)}>
-        <List style={styles.list}>
-          <Typography style={styles.title} color='textSecondary' gutterBottom>
-            课程分类
-          </Typography>
-          <Divider />
+      <List style={styles.list}>
+        <Typography style={styles.title} color='textSecondary' gutterBottom>
+          课程分类
+        </Typography>
+        <Divider />
+        <ListItem
+          button
+          alignItems='center'
+          onClick={() => {
+            setSelectedSubjectId('All');
+            setSidebarOpen(false);
+          }}
+        >
+          <ListItemText primary='全部' />
+        </ListItem>
+        <Divider />
+        {subjects.map((subject) => (
           <ListItem
             button
+            key={subject.id}
             alignItems='center'
             onClick={() => {
-              setSelectedSubjectId('All');
+              setSelectedSubjectId(subject.id);
               setSidebarOpen(false);
             }}
           >
-            <ListItemText primary='全部' />
+            <ListItemText primary={subject.name} />
           </ListItem>
-          <Divider />
-          {subjects.map((subject) => (
-            <ListItem
-              button
-              key={subject.id}
-              alignItems='center'
-              onClick={() => {
-                setSelectedSubjectId(subject.id);
-                setSidebarOpen(false);
-              }}
-            >
-              <ListItemText primary={subject.name} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+        ))}
+      </List>
     </div>
   );
 };

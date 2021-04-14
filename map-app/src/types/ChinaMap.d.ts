@@ -1,9 +1,9 @@
-import { Color as ThreeColor } from "three/src/math/Color.d";
-import React from "react";
+import { Color as ThreeColor } from 'three/src/math/Color.d';
+import React from 'react';
 
-import { PointerEvent as PE, MouseEvent as ME } from "react-three-fiber/canvas";
+import { PointerEvent as PE, MouseEvent as ME } from 'react-three-fiber/canvas';
 
-import { Vector3 } from "three";
+import { Vector3 } from 'three';
 
 export type MouseEvent = ME;
 
@@ -21,11 +21,21 @@ export type XY = Array<number>;
 
 export type Color = string | number | ThreeColor;
 
+export interface GeoPosition {
+  lat: number;
+  lng: number;
+}
+
+export interface LocalPosition {
+  x: number;
+  y: number;
+}
+
 export interface StyleSheet {
   [key: string]: React.CSSProperties;
 }
 
-export interface ProjectionFunction {
+export interface Projector {
   (lL: LL): XY;
 }
 
@@ -43,9 +53,33 @@ export interface ZoomTarget {
 export interface SchoolsData {
   id: number;
   name: string;
-  location: LL;
+  location: GeoPosition;
   info: string;
   province: string;
 }
 
-export type MapMode = "global" | "partical";
+export type MapMode = 'global' | 'partical';
+
+export interface MapData {
+  type: string;
+  features: MapFeature[];
+}
+
+export interface MapFeature {
+  type: string;
+  properties: {
+    adcode: number;
+    name: string;
+    center: [number, number];
+    centroid: [number, number];
+    childrenNum: number;
+    level: string;
+    subFeatureIndex: number;
+    acroutes: [number];
+    parent: { adcode: number };
+  };
+  geometry: {
+    type: string;
+    coordinates: [number, number][][][];
+  };
+}

@@ -10,9 +10,8 @@ import { AppStyleSheet } from '../types';
 const MainScreen = () => {
   return (
     <div id='main-screen-container' style={styles.screen}>
-      <Header />
-      <Sidebar />
       <div id='main' style={styles.main}>
+        <Sidebar />
         <MissionCanvas />
         <PaginationButtons />
       </div>
@@ -30,8 +29,8 @@ const styles: AppStyleSheet = {
   main: {
     flex: 1,
     display: 'flex',
-    flexDirection: 'column',
-    padding: '30px',
+    flexDirection: 'row',
+    // padding: '30px',
   },
 };
 

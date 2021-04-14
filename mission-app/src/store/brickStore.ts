@@ -1,9 +1,8 @@
-import React, { useMemo } from "react";
-import * as THREE from "three";
-import create, { State } from "zustand";
-import { gradientColors } from "../config/colors";
-import { PointerLocations } from "../types";
-import { useMissionStore, useSubjectColorMap } from "./missionStore";
+import { useMemo } from 'react';
+import create, { State } from 'zustand';
+import { gradientColors } from '../config/colors';
+import { PointerLocations } from '../types';
+import { useMissionStore, useSubjectColorMap } from './missionStore';
 
 interface BrickStoreState extends State {
   hoveredId: string;
@@ -18,15 +17,13 @@ interface BrickStoreState extends State {
 }
 
 export const useBrickStore = create<BrickStoreState>((setState) => ({
-  hoveredId: "",
+  hoveredId: '',
   pointerLocations: { x: 0, y: 0 },
-  selectedSubjectId: "All",
+  selectedSubjectId: 'All',
 
   setHoveredId: (id: string) => setState({ hoveredId: id }),
-  setPointerLocations: (locations: PointerLocations) =>
-    setState({ pointerLocations: locations }),
-  setSelectedSubjectId: (subject: string) =>
-    setState({ selectedSubjectId: subject }),
+  setPointerLocations: (locations: PointerLocations) => setState({ pointerLocations: locations }),
+  setSelectedSubjectId: (subject: string) => setState({ selectedSubjectId: subject }),
 }));
 
 export const useBrickArray = () => {
@@ -36,17 +33,14 @@ export const useBrickArray = () => {
   const colorMap = useSubjectColorMap();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const tempColor = new THREE.Color();
 
   return useMemo(() => {
     const filtered = missions.filter(
-      (mission) =>
-        selectedSubjectId === "All" || mission.subjectId === selectedSubjectId
+      (mission) => selectedSubjectId === 'All' || mission.subjectId === selectedSubjectId
     );
 
     const sorted = filtered.sort((m1, m2) => {
-      if (!(m1.completedTime && m2.completedTime))
-        return +m2.completed - +m1.completed;
+      if (!(m1.completedTime && m2.completedTime)) return +m2.completed - +m1.completed;
 
       return m1.completedTime.getTime() - m2.completedTime.getTime();
     });
@@ -55,16 +49,14 @@ export const useBrickArray = () => {
 
     const bricks = sorted.map((mission) => ({
       id: mission.id,
-      colors: mission.completed
-        ? colorMap[mission.subjectId]
-        : gradientColors.grey,
+      colors: mission.completed ? colorMap[mission.subjectId] : gradientColors.grey,
     }));
 
     return {
       bricks,
       currentIndex,
     };
-  }, [colorMap, missions, selectedSubjectId, tempColor]);
+  }, [colorMap, missions, selectedSubjectId]);
 };
 
 export const useHoveredId = () => {
@@ -75,9 +67,7 @@ export const useHoveredId = () => {
 };
 export const usePointerLocations = () => {
   const pointerLocations = useBrickStore((state) => state.pointerLocations);
-  const setPointerLocations = useBrickStore(
-    (state) => state.setPointerLocations
-  );
+  const setPointerLocations = useBrickStore((state) => state.setPointerLocations);
 
   return { pointerLocations, setPointerLocations };
 };

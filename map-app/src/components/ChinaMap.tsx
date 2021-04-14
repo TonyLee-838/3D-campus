@@ -20,7 +20,7 @@ interface ChinaMapProps {
   hoverColor?: Color;
 }
 
-let mode: MapMode = 'global';
+let focused = false;
 
 const ChinaMap = ({
   lineColor = '#ffffff',
@@ -45,12 +45,12 @@ const ChinaMap = ({
   };
 
   const handleProvincePointerMove = (e) => {
-    if (mode === 'partical' || !infoRef) return;
+    if (focused || !infoRef) return;
     infoRef.current.show(e.object.userData.name, e.clientX, e.clientY);
   };
 
   const handleProvinceClick = (e) => {
-    mode = mode === 'global' ? 'partical' : 'global';
+    focused = !focused;
     infoRef.current.hidden();
     setZoomTarget(null);
   };
@@ -69,6 +69,7 @@ const ChinaMap = ({
   const handleSelectSearchResult = (id) => {
     if (id - 1 >= 0) {
       const targetProvince = locationsOfProvinces[fakeSchoolsData[id - 1].province];
+
       if (zoomTarget !== null) {
         setZoomTarget(null);
         setTimeout(() => {
@@ -90,7 +91,6 @@ const ChinaMap = ({
         concurrent
         style={{ backgroundColor: 'black', width: '100vw', height: '100vh' }}
       >
-        {/* <Town /> */}
         <Provinces
           lineColor={lineColor}
           blockColor={blockColor}

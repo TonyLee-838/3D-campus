@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { lLToXY, mapDepth } from './mapTools';
+import { getLocalPosition, mapDepth } from './mapTools';
 import { Vector3 } from 'three';
 import { SchoolsData, PointerFunction, MouseFunction } from '../../types/ChinaMap';
 
@@ -21,38 +21,31 @@ const School = ({
   searchedSchoolId,
 }: SchoolProps) => {
   const [hovered, setHover] = useState<boolean>(false);
-  const isSearched: boolean = searchedSchoolId === userData.id;
-  const meshComponent = (
+  const isSearched = searchedSchoolId === userData.id;
+
+  const color = isSearched ? 'green' : hovered ? 'red' : 'yellow';
+
+  return (
     <mesh
       position={position}
       rotation={[-Math.PI / 2, 0, 0]}
       userData={userData}
       onPointerMove={onPointerMove}
-      onPointerOver={() => {
-        setHover(true);
-      }}
+      onPointerOver={() => setHover(true)}
       onPointerOut={(e) => {
         setHover(false);
         onPointerOut(e);
       }}
-      onClick={(e) => {
-        onClick(e);
-      }}
+      onClick={onClick}
     >
       <cylinderGeometry args={[0.8, 0.8, 1, 10, 1]} />
-      <meshBasicMaterial
-        color={isSearched ? 'green' : hovered ? 'red' : 'yellow'}
-        transparent
-        opacity={0.6}
-      />
+      <meshBasicMaterial color={color} transparent opacity={0.6} />
     </mesh>
   );
-
-  return meshComponent;
 };
 
 interface SchoolsProps {
-  schoolsData: any;
+  schoolsData: SchoolsData[];
   onPointerMove: PointerFunction;
   onPointerOut: PointerFunction;
   onClick: MouseFunction;
@@ -66,21 +59,26 @@ const Schools = ({
   onClick,
   searchedSchoolId = -1,
 }: SchoolsProps) => {
-  return schoolsData.map((item) => {
-    const xY = lLToXY(item.location);
-    const position = new Vector3(xY[0], xY[1], mapDepth + 1.2);
-    return (
-      <School
-        key={`school-${item.id}`}
-        position={position}
-        userData={{ id: item.id, name: item.name, info: item.info }}
-        onPointerMove={onPointerMove}
-        onPointerOut={onPointerOut}
-        onClick={onClick}
-        searchedSchoolId={searchedSchoolId}
-      />
-    );
-  });
+  return (
+    <>
+      {schoolsData.map(({ id, location, name, info }) => {
+        const { x, y } = getLocalPosition(location);
+        // const xY = lLToXY(location);
+        const position = new Vector3(x, y, mapDepth + 1.2);
+        return (
+          <School
+            key={`school-${id}`}
+            position={position}
+            userData={{ id, name, info }}
+            onPointerMove={onPointerMove}
+            onPointerOut={onPointerOut}
+            onClick={onClick}
+            searchedSchoolId={searchedSchoolId}
+          />
+        );
+      })}
+    </>
+  );
 };
 
 export default Schools;

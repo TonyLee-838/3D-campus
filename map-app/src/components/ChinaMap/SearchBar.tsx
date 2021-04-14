@@ -1,14 +1,78 @@
 import React, { useState } from 'react';
+
+//UI
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
-import { CloseRounded } from '@material-ui/icons';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Paper, InputBase, IconButton, List, ListItem, ListItemText } from '@material-ui/core';
+import { SearchOutlined, CloseRounded } from '@material-ui/icons';
+
+//Types
 import { SchoolsData } from '../../types/ChinaMap';
+
+interface SearchBarProps {
+  searchData: SchoolsData[];
+  onSelectSearchResult: (id: number) => void;
+}
+
+const SearchBar = ({ searchData, onSelectSearchResult }: SearchBarProps) => {
+  const classes = useStyles();
+  const [inputValue, setInputValue] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<SchoolsData[]>([]);
+
+  const handleSearch = () => {
+    if (!inputValue) return;
+    const _searchResults = [];
+
+    for (let i = 0; i < searchData.length; i++) {
+      const item = searchData[i];
+      const result = item.name.search(inputValue);
+      if (result !== -1) _searchResults.push(item);
+    }
+    setSearchResults(_searchResults);
+  };
+
+  const handleCancel = () => {
+    setSearchResults([]);
+    onSelectSearchResult(-1);
+  };
+
+  return (
+    <>
+      <Paper component='form' className={classes.root}>
+        <InputBase
+          className={classes.input}
+          placeholder='请输入搜索的关键字'
+          inputProps={{ 'aria-label': 'search google maps' }}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+        />
+        <IconButton className={classes.iconButton} aria-label='cancel' onClick={handleCancel}>
+          <CloseRounded />
+        </IconButton>
+        <IconButton className={classes.iconButton} aria-label='search' onClick={handleSearch}>
+          <SearchOutlined />
+        </IconButton>
+      </Paper>
+      {searchResults.length > 0 && (
+        <div className={classes.list}>
+          <List component='nav' aria-label='secondary mailbox folder'>
+            {searchResults.map(({ id, name }) => (
+              <ListItem
+                button
+                onClick={() => {
+                  onSelectSearchResult(id);
+                }}
+                key={`list-item-${id}`}
+              >
+                <ListItemText primary={name} />
+              </ListItem>
+            ))}
+          </List>
+        </div>
+      )}
+    </>
+  );
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,67 +107,4 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SearchBarProps {
-  searchData: SchoolsData[];
-  onSelectSearchResult: (id: number) => void;
-}
-
-export default function SearchBar({ searchData, onSelectSearchResult }: SearchBarProps) {
-  const classes = useStyles();
-  const [inputValue, setInputValue] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<SchoolsData[]>([]);
-
-  const handleSearch = () => {
-    if (inputValue === '') return;
-    const _searchResults = [];
-    for (let i = 0; i < searchData.length; i++) {
-      const item = searchData[i];
-      const result = item.name.search(inputValue);
-      if (result !== -1) _searchResults.push(item);
-    }
-    setSearchResults(_searchResults);
-  };
-
-  const handleCancel = () => {
-    setSearchResults([]);
-    onSelectSearchResult(-1);
-  };
-
-  return (
-    <>
-      <Paper component='form' className={classes.root}>
-        <InputBase
-          className={classes.input}
-          placeholder='请输入搜索的关键字'
-          inputProps={{ 'aria-label': 'search google maps' }}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-          }}
-        />
-        <IconButton className={classes.iconButton} aria-label='cancel' onClick={handleCancel}>
-          <CloseRounded />
-        </IconButton>
-        <IconButton className={classes.iconButton} aria-label='search' onClick={handleSearch}>
-          <SearchIcon />
-        </IconButton>
-      </Paper>
-      {searchResults.length > 0 && (
-        <div className={classes.list}>
-          <List component='nav' aria-label='secondary mailbox folder'>
-            {searchResults.map((item) => (
-              <ListItem
-                button
-                onClick={() => {
-                  onSelectSearchResult(item.id);
-                }}
-                key={`list-item-${item.id}`}
-              >
-                <ListItemText primary={item.name} />
-              </ListItem>
-            ))}
-          </List>
-        </div>
-      )}
-    </>
-  );
-}
+export default SearchBar;

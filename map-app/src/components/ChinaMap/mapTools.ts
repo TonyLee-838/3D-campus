@@ -1,29 +1,36 @@
-import { LL, ProjectionFunction, XY } from "../../types/ChinaMap";
+import { GeoPosition, LL, LocalPosition, Projector, XY } from '../../types/ChinaMap';
 
-import { Vector3, Mesh } from "three";
+import { Vector3, Mesh } from 'three';
 
-import { geoMercator } from "d3-geo";
+import { geoMercator } from 'd3-geo';
 
-const mapScale: number = 250;
+const MAP_SCALE: number = 250;
+const CENTER_POSITION: [number, number] = [105.367, 34.031];
 
-const getProjection = () => {
-  return geoMercator()
-    .center([105.367, 34.031])
-    .scale(mapScale)
-    .translate([0, 0]);
+const createProjector = () => {
+  return geoMercator().center(CENTER_POSITION).scale(MAP_SCALE).translate([0, 0]);
 };
 
 export const mapDepth: number = 4.1;
 
-export const projection: ProjectionFunction = getProjection();
+// export const getProjection: Projector = createProjector();
 
 // change Latitude and longitude(lL) to x and y
 // lL: [longitude, Latitude]
-export const lLToXY = (lL: LL): XY => {
-  const result = projection(lL);
-  result[1] = -result[1];
-  return result;
+export const getLocalPosition = ({ lat, lng }: GeoPosition): LocalPosition => {
+  const [x, y] = createProjector()([lat, lng]);
+
+  return {
+    x,
+    y: -y,
+  };
 };
+
+// export const lLToXY = (lL: LL): XY => {
+//   const result = getProjection(lL);
+//   result[1] = -result[1];
+//   return result;
+// };
 
 export const getMeshCenter = (mesh: any): Vector3 => {
   const geometry = mesh.geometry;

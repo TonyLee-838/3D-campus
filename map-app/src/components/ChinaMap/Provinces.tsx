@@ -1,6 +1,6 @@
 import React from 'react';
 import Province from './Province';
-const mapData = require('./china-map.json');
+const mapData: MapData = require('./china-map.json');
 import { useFrame } from 'react-three-fiber';
 import { getCameraSuitableZPosition, getMeshCenter, locationsOfProvinces } from './mapTools';
 import { Vector3, MathUtils, PerspectiveCamera, Mesh } from 'three';
@@ -12,6 +12,7 @@ import {
   MouseEvent,
   PointerEvenet,
   ZoomTarget,
+  MapData,
 } from '../../types/ChinaMap';
 
 let allProvinces = null;
@@ -94,10 +95,10 @@ ProvincesProps) => {
 
   return (allProvinces = (
     <group>
-      {mapData.features.map((elem, i) => {
+      {mapData.features.map((feature, i) => {
         return (
           <Province
-            provinceData={elem}
+            provinceData={feature}
             key={`province-${i}`}
             onPointerOut={onPointerOut}
             onPointerOver={onPointerOver}

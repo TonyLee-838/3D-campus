@@ -1,7 +1,7 @@
 import React from 'react';
 import { Shape, Vector3, BufferGeometry } from 'three';
 import {
-  projection,
+  getLocalPosition,
   mapDepth,
   locationsOfProvinces,
   getMeshCenter,
@@ -20,7 +20,7 @@ const Province = ({
   const coordinates = provinceData.geometry.coordinates;
   const properties = provinceData.properties;
 
-  const handleGetLocationOfProvince = (mesh, name) => {
+  const getProvinceLocation = (mesh, name) => {
     const center = getMeshCenter(mesh);
     const z = getCameraSuitableZPosition(mesh);
     const position = new Vector3(center.x, center.y, z);
@@ -34,7 +34,7 @@ const Province = ({
     <group
       key={properties.name}
       onUpdate={(e) => {
-        handleGetLocationOfProvince(e.children[0].children[1], properties.name);
+        getProvinceLocation(e.children[0].children[1], properties.name);
       }}
     >
       {coordinates.map((multiPolygon, i) => {
@@ -42,12 +42,13 @@ const Province = ({
           const shape = new Shape();
           const shapePoints = [];
           for (let i = 0; i < polygon.length; i++) {
-            const [x, y] = projection(polygon[i]);
-            if (i === 0) {
-              shape.moveTo(x, -y);
+            const [lat, lng] = polygon[i];
+            const { x, y } = getLocalPosition({ lat, lng });
+            if (!i) {
+              shape.moveTo(x, y);
             }
-            shape.lineTo(x, -y);
-            shapePoints.push(new Vector3(x, -y, mapDepth));
+            shape.lineTo(x, y);
+            shapePoints.push(new Vector3(x, y, mapDepth));
           }
           const lineGeometry = new BufferGeometry().setFromPoints(shapePoints);
           // locationsOfProvinces[properties.name]
@@ -58,16 +59,10 @@ const Province = ({
               </line>
               <mesh
                 userData={properties}
-                onPointerOver={(e) => {
-                  onPointerOver(e);
-                }}
-                onPointerOut={(e) => {
-                  onPointerOut(e);
-                }}
-                onPointerMove={(e) => onPointerMove(e)}
-                onClick={(e) => {
-                  onClick(e);
-                }}
+                onPointerOver={onPointerOver}
+                onPointerOut={onPointerOut}
+                onPointerMove={onPointerMove}
+                onClick={onClick}
               >
                 <extrudeGeometry args={[shape, { depth: mapDepth, bevelEnabled: false }]} />
                 <meshBasicMaterial color={blockColor} opacity={0.7} transparent />
