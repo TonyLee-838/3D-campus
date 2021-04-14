@@ -1,12 +1,9 @@
-import Province from "./Province";
-const mapData = require("./china-map.json");
-import { useFrame } from "react-three-fiber";
-import {
-  getCameraSuitableZPosition,
-  getMeshCenter,
-  locationsOfProvinces,
-} from "./mapTools";
-import { Vector3, MathUtils, PerspectiveCamera, Mesh } from "three";
+import React from 'react';
+import Province from './Province';
+const mapData = require('./china-map.json');
+import { useFrame } from 'react-three-fiber';
+import { getCameraSuitableZPosition, getMeshCenter, locationsOfProvinces } from './mapTools';
+import { Vector3, MathUtils, PerspectiveCamera, Mesh } from 'three';
 import {
   CameraConfig,
   Color,
@@ -15,7 +12,7 @@ import {
   MouseEvent,
   PointerEvenet,
   ZoomTarget,
-} from "../../types/ChinaMap";
+} from '../../types/ChinaMap';
 
 let allProvinces = null;
 
@@ -47,8 +44,8 @@ interface ProvincesProps {
 }
 
 const Provinces = ({
-  lineColor = "#ffffff",
-  blockColor = "#1414AA",
+  lineColor = '#ffffff',
+  blockColor = '#1414AA',
   onPointerOut,
   onPointerOver,
   onPointerMove,
@@ -72,7 +69,7 @@ ProvincesProps) => {
     if (!zoomTarget) return (zoom = false);
     cameraZoomConig.position = zoomTarget.position;
     cameraZoomConig.lookAt = zoomTarget.lookAt;
-    console.log("handleZoomToTarget");
+    console.log('handleZoomToTarget');
     zoom = true;
   };
 
@@ -83,10 +80,7 @@ ProvincesProps) => {
         zoom ? cameraZoomConig.fov : cameraDefaultConfig.fov,
         zoomStep
       );
-      camera.position.lerp(
-        zoom ? cameraZoomConig.position : cameraDefaultConfig.position,
-        zoomStep
-      );
+      camera.position.lerp(zoom ? cameraZoomConig.position : cameraDefaultConfig.position, zoomStep);
       camera.lookAt(zoom ? cameraZoomConig.lookAt : cameraDefaultConfig.lookAt);
       camera.updateProjectionMatrix();
     }

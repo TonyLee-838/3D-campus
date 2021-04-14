@@ -8,11 +8,12 @@ const devConfig = {
   mode: 'development',
   devServer: {
     port: 8083,
-    publicPath: 'http://localhost:8083/',
 
     historyApiFallback: true,
   },
-
+  output: {
+    publicPath: 'http://localhost:8083/',
+  },
   plugins: [
     new ModuleFederationPlugin({
       name: 'quiz',

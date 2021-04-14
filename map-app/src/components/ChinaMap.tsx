@@ -1,16 +1,16 @@
-import { Canvas } from "react-three-fiber";
-import { OrbitControls, Stars } from "drei";
-import { Color as ThreeColor } from "three";
+import { Canvas } from 'react-three-fiber';
+import { OrbitControls, Stars } from 'drei';
+import { Color as ThreeColor } from 'three';
 
-import SearchBar from "./ChinaMap/SearchBar";
-import Info from "./ChinaMap/Info";
-import Provinces from "./ChinaMap/Provinces";
-import Schools from "./ChinaMap/Schools";
-import { Color, MapMode, SchoolsData, ZoomTarget } from "../types/ChinaMap";
-import { useRef, useState } from "react";
+import SearchBar from './ChinaMap/SearchBar';
+import Info from './ChinaMap/Info';
+import Provinces from './ChinaMap/Provinces';
+import Schools from './ChinaMap/Schools';
+import { Color, MapMode, SchoolsData, ZoomTarget } from '../types/ChinaMap';
+import React, { useRef, useState } from 'react';
 
-import { fakeSchoolsData } from "./ChinaMap/fakeData";
-import { locationsOfProvinces } from "./ChinaMap/mapTools";
+import { fakeSchoolsData } from './ChinaMap/fakeData';
+import { locationsOfProvinces } from './ChinaMap/mapTools';
 
 // import Town from "./model/Town";
 
@@ -20,12 +20,12 @@ interface ChinaMapProps {
   hoverColor?: Color;
 }
 
-let mode: MapMode = "global";
+let mode: MapMode = 'global';
 
 const ChinaMap = ({
-  lineColor = "#ffffff",
-  blockColor = "#1414AA",
-  hoverColor = "#c32136",
+  lineColor = '#ffffff',
+  blockColor = '#1414AA',
+  hoverColor = '#c32136',
 }: ChinaMapProps) => {
   blockColor = new ThreeColor(blockColor);
 
@@ -45,23 +45,19 @@ const ChinaMap = ({
   };
 
   const handleProvincePointerMove = (e) => {
-    if (mode === "partical" || !infoRef) return;
+    if (mode === 'partical' || !infoRef) return;
     infoRef.current.show(e.object.userData.name, e.clientX, e.clientY);
   };
 
   const handleProvinceClick = (e) => {
-    mode = mode === "global" ? "partical" : "global";
+    mode = mode === 'global' ? 'partical' : 'global';
     infoRef.current.hidden();
     setZoomTarget(null);
   };
 
   const handleSchoolPointerMove = (e) => {
     if (!infoRef) return;
-    infoRef.current.show(
-      `${e.object.userData.name}：${e.object.userData.info}`,
-      e.clientX,
-      e.clientY
-    );
+    infoRef.current.show(`${e.object.userData.name}：${e.object.userData.info}`, e.clientX, e.clientY);
   };
   const handleSchoolPointerOut = (e) => {
     if (!infoRef) return;
@@ -72,8 +68,7 @@ const ChinaMap = ({
 
   const handleSelectSearchResult = (id) => {
     if (id - 1 >= 0) {
-      const targetProvince =
-        locationsOfProvinces[fakeSchoolsData[id - 1].province];
+      const targetProvince = locationsOfProvinces[fakeSchoolsData[id - 1].province];
       if (zoomTarget !== null) {
         setZoomTarget(null);
         setTimeout(() => {
@@ -87,16 +82,13 @@ const ChinaMap = ({
 
   return (
     <>
-      <SearchBar
-        searchData={fakeSchoolsData}
-        onSelectSearchResult={handleSelectSearchResult}
-      />
+      <SearchBar searchData={fakeSchoolsData} onSelectSearchResult={handleSelectSearchResult} />
       <Info ref={infoRef} />
       <Canvas
         colorManagement={true}
         camera={{ position: [0, -120, 180], fov: 50 }}
         concurrent
-        style={{ backgroundColor: "black", width: "100%", height: "100%" }}
+        style={{ backgroundColor: 'black', width: '100vw', height: '100vh' }}
       >
         {/* <Town /> */}
         <Provinces
@@ -117,7 +109,7 @@ const ChinaMap = ({
         />
         {/* <OrbitControls /> */}
         <Stars />
-        <ambientLight color={"#ffffff"} intensity={100} />
+        <ambientLight color={'#ffffff'} intensity={100} />
       </Canvas>
     </>
   );

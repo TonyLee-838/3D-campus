@@ -18,6 +18,7 @@ import { useStudioStore } from './store/studioStore';
 // Http
 import { getBookShelfData, getMonitorData, getDeskData } from './http/studio';
 import MissionPanel from './components/dom/MissionPanel';
+import QuizApp from './components/dom/QuizApp';
 
 // softShadows({
 //   frustum: 3.75, // Frustum width (default: 3.75) must be a float
@@ -52,6 +53,7 @@ function App() {
   return (
     <div className='App'>
       <DomMain />
+      <QuizApp />
       <Canvas concurrent colorManagement>
         {bookshelfData && monitorData && deskData && <StudioScene />}
       </Canvas>
