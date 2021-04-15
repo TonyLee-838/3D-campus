@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import { gradientColors } from '../../config/colors';
 import { useBrickArray, useHoveredId, usePointerLocations } from '../../store/brickStore';
@@ -13,45 +13,38 @@ const Bricks = () => {
 
   const { hoveredId, setHoveredId } = useHoveredId();
   const { setPointerLocations } = usePointerLocations();
-  const { bricks, currentIndex } = useBrickArray();
+  const { bricks } = useBrickArray();
   const { paginated } = usePagination(bricks);
 
-  const handleMouseMove = (event, id) => {
-    console.log(id);
-
+  const handleMouseMove = useCallback((event, id) => {
     event.stopPropagation();
 
     const pointerLocations = { x: event.clientX, y: event.clientY };
     setPointerLocations(pointerLocations);
-    if (hoveredId !== id) {
-      setHoveredId(id);
-    }
-  };
+    setHoveredId(id);
+  }, []);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setHoveredId('');
-  };
-
-  const randomColor = () => {
-    const e = Object.keys(gradientColors).map((key) => gradientColors[key]);
-
-    return e[Math.floor(Math.random() * e.length)];
-  };
+  }, []);
 
   return (
     <div className={classes.scene}>
-      {paginated.map((brick, i) => (
-        <Brick
-          colors={randomColor()}
-          key={brick.id}
-          height={40 + i * 20}
-          hovered={hoveredId === brick.id}
-          onMouseMove={(event) => handleMouseMove(event, brick.id)}
-          onMouseLeave={handleMouseLeave}
-          width={50}
-          zIndex={getZIndex(i, 22)}
-        />
-      ))}
+      {paginated.map((brick, i) => {
+        return (
+          <Brick
+            colors={brick.colors}
+            key={`brick-${brick.id}`}
+            id={brick.id}
+            height={40 + i * 20}
+            hovered={hoveredId === brick.id}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            width={50}
+            zIndex={getZIndex(i, 22)}
+          />
+        );
+      })}
     </div>
   );
 };

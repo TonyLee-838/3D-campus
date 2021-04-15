@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import create, { State } from 'zustand';
+import shallow from 'zustand/shallow';
+
 import { gradientColors } from '../config/colors';
 import { PointerLocations } from '../types';
 import { useMissionStore, useSubjectColorMap } from './missionStore';
@@ -27,8 +29,8 @@ export const useBrickStore = create<BrickStoreState>((setState) => ({
 }));
 
 export const useBrickArray = () => {
-  const { missions } = useMissionStore();
-  const { selectedSubjectId } = useBrickStore();
+  const missions = useMissionStore((state) => state.missions);
+  const selectedSubjectId = useBrickStore((state) => state.selectedSubjectId);
 
   const colorMap = useSubjectColorMap();
 
@@ -60,35 +62,25 @@ export const useBrickArray = () => {
 };
 
 export const useHoveredId = () => {
-  const hoveredId = useBrickStore((state) => state.hoveredId);
-  const setHoveredId = useBrickStore((state) => state.setHoveredId);
+  // const hoveredId = useBrickStore((state) => state.hoveredId);
+  // const setHoveredId = useBrickStore((state) => state.setHoveredId);
 
-  return { hoveredId, setHoveredId };
+  return useBrickStore(
+    (state) => ({ hoveredId: state.hoveredId, setHoveredId: state.setHoveredId }),
+    shallow
+  );
 };
 export const usePointerLocations = () => {
-  const pointerLocations = useBrickStore((state) => state.pointerLocations);
-  const setPointerLocations = useBrickStore((state) => state.setPointerLocations);
+  // const pointerLocations = useBrickStore((state) => state.pointerLocations);
+  // const setPointerLocations = useBrickStore((state) => state.setPointerLocations);
 
-  return { pointerLocations, setPointerLocations };
+  return useBrickStore(
+    (state) => ({
+      pointerLocations: state.pointerLocations,
+      setPointerLocations: state.setPointerLocations,
+    }),
+    shallow
+  );
+
+  // return { pointerLocations, setPointerLocations };
 };
-
-// const array = [
-//   { id: 1, value: true, weight: 100 },
-//   { id: 2, value: true, weight: 132 },
-//   { id: 3, value: false },
-//   { id: 4, value: true, weight: 50 },
-//   { id: 5, value: true, weight: 500 },
-// ];
-
-// const result = array.sort((a, b) => {
-//   const completedNotEqual = +b.value - +a.value;
-//   if (completedNotEqual) return completedNotEqual;
-
-//   if (!a.weight || !b.weight) return 0;
-
-//   return a.weight - b.weight;
-//   // return Number(b.value) - Number(a.value);
-//   // return +b.value - +a.value;
-// });
-
-// console.log(result);

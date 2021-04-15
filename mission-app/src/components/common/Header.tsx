@@ -12,7 +12,7 @@ const Header = () => {
 
   return (
     <div id='header' style={styles.root}>
-      <AppBar position='static'>
+      <AppBar position='relative'>
         <Toolbar>
           <IconButton
             edge='start'
