@@ -1,15 +1,16 @@
 import React, { MouseEventHandler, useState } from 'react';
-
 import { createUseStyles } from 'react-jss';
+
 import { GradientColor } from '../../types';
 
 interface BrickProps {
   colors: GradientColor;
   depth?: number;
   height: number;
+  id: string;
   margin?: number;
   hovered: boolean;
-  onMouseMove: MouseEventHandler<HTMLDivElement>;
+  onMouseMove: (event, id) => void;
   onMouseLeave: () => void;
   width?: number;
   zIndex: number;
@@ -22,12 +23,16 @@ const getBackgroundStyle = (colors) => {
   return `linear-gradient(to bottom, ${fromString},${toString})`;
 };
 
-const Brick = (props: BrickProps) => {
+const Brick = React.memo((props: BrickProps) => {
   const defaultProps = { width: 70, depth: 300, margin: 50 };
   const classes = useBrickStyles({ ...defaultProps, ...props });
 
   return (
-    <div className={classes.cube} onMouseOver={props.onMouseMove} onMouseLeave={props.onMouseLeave}>
+    <div
+      className={classes.cube}
+      onMouseEnter={(e) => props.onMouseMove(e, props.id)}
+      onMouseLeave={props.onMouseLeave}
+    >
       <div className={classes.front} />
       <div className={classes.back} />
       <div className={classes.left} />
@@ -36,9 +41,13 @@ const Brick = (props: BrickProps) => {
       <div className={classes.bottom} />
     </div>
   );
-};
+});
 
 const useBrickStyles = createUseStyles<string, BrickProps>((theme) => ({
+  wrapper: {
+    width: 'max-content',
+    height: 'max-content',
+  },
   cube: {
     cursor: 'pointer',
     display: 'block',

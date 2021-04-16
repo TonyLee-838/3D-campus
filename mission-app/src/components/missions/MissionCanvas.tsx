@@ -1,46 +1,34 @@
-import React from "react";
+import React from 'react';
+import { createUseStyles } from 'react-jss';
 
-import { Button, ButtonGroup, Card, CardContent } from "@material-ui/core";
-import Bricks from "./Bricks";
-import Lights from "./Lights";
-import Pointer from "./Pointer";
+//Components
+import Bricks from './Bricks';
+import MissionInfoCard from './MissionInfoCard';
 
-import { AppStyleSheet } from "../../types";
-import MissionInfoCard from "./MissionInfoCard";
-import { useHoveredId } from "../../store/brickStore";
+//Store
+import { useHoveredId } from '../../store/brickStore';
 
 const MissionCanvas = () => {
   const { hoveredId } = useHoveredId();
 
+  const classes = useStyle();
+
   return (
-    <div style={styles.container}>
-      <div style={styles.canvasContainer}>
-        <div style={styles.pointer}>{/* <Pointer /> */}</div>
-        <Bricks />
-      </div>
+    <div id='mission-canvas-container' className={classes.container}>
+      <Bricks />
       {hoveredId && <MissionInfoCard />}
     </div>
   );
 };
 
-const styles: AppStyleSheet = {
-  canvasContainer: {
-    flex: 1,
-    position: "relative",
+const useStyle = createUseStyles(
+  {
+    container: {
+      width: '100%',
+      height: '100%',
+    },
   },
-  container: {
-    flex: 1,
-    height: "90%",
-    display: "flex",
-    flexDirection: "column",
-  },
-  pointer: {
-    position: "absolute",
-    top: "30%",
-    left: "50%",
-    zIndex: 99,
-  },
-  bricks: {},
-};
+  { index: 10 }
+);
 
 export default MissionCanvas;

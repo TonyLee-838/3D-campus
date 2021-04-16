@@ -23,7 +23,7 @@ export const useSubjects = () => {
 };
 
 export const useSubjectColorMap = () => {
-  const { subjects } = useMissionStore();
+  const subjects = useMissionStore((state) => state.subjects);
 
   return subjects.reduce((result, subject) => {
     result[subject.id] = subject.colors;
