@@ -11,26 +11,29 @@ interface BrickStoreState extends State {
   pointerLocations: PointerLocations;
   // currentPage:number,
   // pageSize:number,
-  selectedSubjectId: string;
+  selectedSubjectIndex: number;
 
   setHoveredId: (id: string) => void;
   setPointerLocations: (location: PointerLocations) => void;
-  setSelectedSubjectId: (subject: string) => void;
+  setSelectedSubjectIndex: (index: number) => void;
 }
 
 export const useBrickStore = create<BrickStoreState>((setState) => ({
   hoveredId: '',
   pointerLocations: { x: 0, y: 0 },
-  selectedSubjectId: 'All',
+  selectedSubjectIndex: -1,
 
   setHoveredId: (id: string) => setState({ hoveredId: id }),
   setPointerLocations: (locations: PointerLocations) => setState({ pointerLocations: locations }),
-  setSelectedSubjectId: (subject: string) => setState({ selectedSubjectId: subject }),
+  setSelectedSubjectIndex: (index: number) => setState({ selectedSubjectIndex: index }),
 }));
 
 export const useBrickArray = () => {
-  const missions = useMissionStore((state) => state.missions);
-  const selectedSubjectId = useBrickStore((state) => state.selectedSubjectId);
+  const { missions, subjects } = useMissionStore(
+    (state) => ({ missions: state.missions, subjects: state.subjects }),
+    shallow
+  );
+  const selectedSubjectIndex = useBrickStore((state) => state.selectedSubjectIndex);
 
   const colorMap = useSubjectColorMap();
 
@@ -38,7 +41,7 @@ export const useBrickArray = () => {
 
   return useMemo(() => {
     const filtered = missions.filter(
-      (mission) => selectedSubjectId === 'All' || mission.subjectId === selectedSubjectId
+      (mission) => selectedSubjectIndex === -1 || mission.subjectId === subjects[selectedSubjectIndex].id
     );
 
     const sorted = filtered.sort((m1, m2) => {
@@ -58,7 +61,7 @@ export const useBrickArray = () => {
       bricks,
       currentIndex,
     };
-  }, [colorMap, missions, selectedSubjectId]);
+  }, [colorMap, missions, selectedSubjectIndex]);
 };
 
 export const useHoveredId = () => {

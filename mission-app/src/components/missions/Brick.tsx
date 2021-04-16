@@ -27,8 +27,6 @@ const Brick = React.memo((props: BrickProps) => {
   const defaultProps = { width: 70, depth: 300, margin: 50 };
   const classes = useBrickStyles({ ...defaultProps, ...props });
 
-  console.log('render', props.height);
-
   return (
     <div
       className={classes.cube}
