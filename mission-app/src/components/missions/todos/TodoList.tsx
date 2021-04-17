@@ -1,7 +1,8 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 
-import { Card, CardContent, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
+import { Card, CardContent, Chip, Step, StepLabel, Stepper, Typography } from '@material-ui/core';
+import { Create, LiveTv } from '@material-ui/icons';
 
 const fakeMissions = {};
 
@@ -14,16 +15,22 @@ const TodoList = () => {
       <div className={classes.stepper}>
         <Stepper activeStep={-1} orientation='vertical'>
           <Step>
-            <StepLabel>111</StepLabel>
+            <StepLabel>
+              <div className={classes.stepLabel}>
+                <LiveTv />
+                <Typography component='label'>观看Java课程 章节 1.2.3</Typography>
+              </div>
+              {/* <Chip icon={<LiveTv />} /> */}
+            </StepLabel>
           </Step>
           <Step>
-            <StepLabel>111</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>111</StepLabel>
-          </Step>
-          <Step>
-            <StepLabel>111</StepLabel>
+            <StepLabel>
+              <div className={classes.stepLabel}>
+                <Create />
+                <Typography component='label'>完成Java课程練習 章节 1.2.5</Typography>
+              </div>
+              {/* <Chip icon={<LiveTv />} /> */}
+            </StepLabel>
           </Step>
         </Stepper>
       </div>
@@ -40,6 +47,19 @@ const useStyle = createUseStyles({
   },
   stepper: {
     width: '100%',
+  },
+  stepLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    '& > * ': {
+      marginRight: '10px',
+    },
+    // '& > svg': {
+    //   fontSize: '1.5rem',
+    // },
+    '& > label': {
+      fontSize: '1.2rem',
+    },
   },
 });
 

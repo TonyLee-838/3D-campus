@@ -1,49 +1,72 @@
+import { useMemo } from 'react';
 import create, { State } from 'zustand';
+import shallow from 'zustand/shallow';
 
 import { getFakeQuiz } from '../data/fakeQuiz';
 
 interface QuizStoreState extends State {
   quiz: Quiz;
-  answers: string[];
-  setAnswer: (value: string, index: number) => void;
   // setQuiz: (quiz: Quiz) => void;
   current: number;
   setCurrentPage: (page: number) => void;
   mcPageSize: number;
+  answers: string[];
+  setAnswer: (answer: string, index: number) => void;
+  screen: ScreenType;
+  navigate: (screen: ScreenType) => void;
 }
 
 export const useStore = create<QuizStoreState>((setState, getState) => ({
   quiz: getFakeQuiz(),
-  answers: [],
-  setAnswer: (value, index) => {
-    const { answers } = getState();
-    const copy = answers;
-    copy[index] = value;
-    setState({ answers: copy });
-  },
+  screen: 'quizList',
+  navigate: (screen) => setState({ screen }),
   // setQuiz: (quiz) => setState({ quiz }),
   current: 0,
   setCurrentPage: (page) => setState({ current: page }),
   mcPageSize: 3,
+  answers: [],
+  setAnswer: (answer, index) => {
+    const copy = getState().answers;
+    copy[index] = answer;
+
+    setState({ answers: copy });
+  },
 }));
 
 export const useQuizProgress = () => {
-  return useStore((state) => ({
-    finished: state.answers.flat().length,
-    total: state.quiz.questions.length,
-  }));
+  return useStore(
+    (state) => ({
+      finished: state.answers.length,
+      total: state.quiz.questions.length,
+    }),
+    shallow
+  );
 };
 
-// export const usePagination = () => {
-//   const { quiz, current, setCurrentPage, mcPageSize } = useStore();
+export const useNavigation = () => {
+  return useStore((state) => ({ screen: state.screen, navigate: state.navigate }), shallow);
+};
 
-//   const mcQuestions = quiz.questions
-//     .slice(current, current + mcPageSize)
-//     .filter((question) => question.type === 'choice');
+export const usePagination = () => {
+  const { quiz, current, setCurrentPage, mcPageSize } = useStore(
+    (state) => ({
+      quiz: state.quiz,
+      current: state.current,
+      setCurrentPage: state.setCurrentPage,
+      mcPageSize: state.mcPageSize,
+    }),
+    shallow
+  );
 
-//   const paginatedQuestions = mcQuestions.length ? mcQuestions : [quiz.questions[current]];
+  return useMemo(() => {
+    const mcQuestions = quiz.questions
+      .slice(current, current + mcPageSize)
+      .filter((question) => question.type === 'choice');
 
-//   const isEnd = current === quiz.questions.length - 1;
+    const paginatedQuestions = mcQuestions.length ? mcQuestions : [quiz.questions[current]];
 
-//   return { paginatedQuestions, current, setCurrentPage, mcPageSize, isEnd };
-// };
+    const isEnd = current === quiz.questions.length - 1;
+
+    return { paginatedQuestions, current, setCurrentPage, mcPageSize, isEnd };
+  }, [quiz, current, setCurrentPage, mcPageSize]);
+};

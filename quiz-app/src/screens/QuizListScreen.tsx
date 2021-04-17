@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { createUseStyles } from "react-jss";
+import React, { useEffect, useState } from 'react';
+import { createUseStyles } from 'react-jss';
 
 import {
   Badge,
@@ -13,34 +13,36 @@ import {
   StepLabel,
   Stepper,
   Typography,
-} from "@material-ui/core";
-import { LibraryBooks } from "@material-ui/icons";
+} from '@material-ui/core';
+import { LibraryBooks } from '@material-ui/icons';
 
-import Screen from "../components/common/Screen";
-import { log } from "node:console";
-import { useHistory } from "react-router";
+import Screen from '../components/common/Screen';
+import { log } from 'node:console';
+import { useHistory } from 'react-router';
+import { useNavigation } from '../store/useStore';
 
 const quizzes = [
   {
-    id: "jdanofka",
-    title: "互换性与测量技术 1",
-    description: "章节 1.1.1 练习题",
+    id: 'jdanofka',
+    title: '互换性与测量技术 1',
+    description: '章节 1.1.1 练习题',
   },
   {
-    id: "gsgd",
-    title: "互换性与测量技术 232",
-    description: "章节 1.3.1 练习题",
+    id: 'gsgd',
+    title: '互换性与测量技术 232',
+    description: '章节 1.3.1 练习题',
   },
   {
-    id: "fgsdg",
-    title: "互换性与测量技术 3",
-    description: "章节 2.1.1 练习题",
+    id: 'fgsdg',
+    title: '互换性与测量技术 3',
+    description: '章节 2.1.1 练习题',
   },
 ];
 
 const QuizListScreen = () => {
   const classes = useStyle();
   const history = useHistory();
+  const { navigate } = useNavigation();
 
   const [activeQuiz, setActiveQuiz] = useState<number>(-1);
 
@@ -54,38 +56,31 @@ const QuizListScreen = () => {
   };
 
   const handleQuizEntry = (id) => {
-    history.replace(`/quiz/${id}`);
+    // history.replace(`/quiz/${id}`);
+    console.log('enter!');
+    navigate('quiz');
   };
 
   return (
-    <Screen justifyContent="start" alignItems="start" onReset={handleReset}>
-      <Typography className={classes.mainTitle} variant="h1">
+    <Screen justifyContent='start' alignItems='start' onReset={handleReset}>
+      <Typography className={classes.mainTitle} variant='h1'>
         练习台
       </Typography>
-      <Typography className={classes.menuTitle} variant="h2">
+      <Typography className={classes.menuTitle} variant='h2'>
         待完成练习
-        <Badge badgeContent={quizzes.length} color="secondary">
+        <Badge badgeContent={quizzes.length} color='secondary'>
           <LibraryBooks />
         </Badge>
       </Typography>
-      <Stepper activeStep={activeQuiz} orientation="vertical">
+      <Stepper activeStep={activeQuiz} orientation='vertical'>
         {quizzes.map((quiz, index) => (
-          <Step
-            className={classes.quizContainer}
-            completed={false}
-            key={quiz.id}
-          >
+          <Step className={classes.quizContainer} completed={false} key={quiz.id}>
             <StepLabel onClick={(event) => handleQuizSelect(event, index)}>
-              <Typography className={classes.quizTitle}>
-                {quiz.title}
-              </Typography>
+              <Typography className={classes.quizTitle}>{quiz.title}</Typography>
             </StepLabel>
             <StepContent>
               <Typography>{quiz.description}</Typography>
-              <Button
-                onClick={() => handleQuizEntry(quiz.id)}
-                variant="contained"
-              >
+              <Button onClick={() => handleQuizEntry(quiz.id)} variant='contained'>
                 进入练习
               </Button>
             </StepContent>
@@ -99,25 +94,25 @@ const QuizListScreen = () => {
 const useStyle = createUseStyles(
   {
     mainTitle: {
-      fontSize: "64px",
-      margin: "45px 15px",
+      fontSize: '64px',
+      margin: '45px 15px',
       // width: '100%',
     },
     menuTitle: {
-      margin: "0px 15px",
-      fontSize: "32px",
+      margin: '0px 15px',
+      fontSize: '32px',
       // width: '100%',
-      "& svg": {
-        marginRight: "5px",
-        width: "1.5rem",
+      '& svg': {
+        marginRight: '5px',
+        width: '1.5rem',
       },
     },
     quizTitle: {
-      fontSize: "20px",
+      fontSize: '20px',
     },
     quizContainer: {
-      "& *": {
-        cursor: "pointer",
+      '& *': {
+        cursor: 'pointer',
       },
     },
   },

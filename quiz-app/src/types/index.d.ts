@@ -1,6 +1,8 @@
 // type QuestionType = 'choice' | 'text';
 type QuestionType = MultipleChoiceQuestion | TextEntryQuestion;
 
+type ScreenType = 'quizList' | 'quiz' | 'finish';
+
 interface Quiz {
   id: string;
   title: string;

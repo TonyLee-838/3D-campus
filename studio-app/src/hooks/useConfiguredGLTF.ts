@@ -17,7 +17,7 @@ const setCustomColors = (material: Material, color: string) => {
 export const useConfiguredGLTF = (path: string, options: configuredGLTFOptions = {}) => {
   const gltf = useGLTF(path, false);
 
-  const { materials, scene } = gltf;
+  const { materials, scene, nodes } = gltf;
 
   const { colors } = options;
 
