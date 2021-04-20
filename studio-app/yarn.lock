@@ -4774,7 +4774,7 @@ dotenv-expand@5.1.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
   integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
 
-dotenv@8.2.0:
+dotenv@8.2.0, dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
@@ -4793,6 +4793,13 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
+
+dynamic-container-path-webpack-plugin@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/dynamic-container-path-webpack-plugin/-/dynamic-container-path-webpack-plugin-1.0.0.tgz#2a5beb43401100a9fc1736f7f6a8868f0607aab9"
+  integrity sha512-emt5P6Wm8XWLIKvopHTiOG4a06rC0Vqo/iByR0uln8V2sMnFHxHUIU0PeO2ABR2bMvYgz3CPNL/+UN3iKoCC8w==
+  dependencies:
+    schema-utils "^1.0.0"
 
 ecc-jsbn@~0.1.1:
   version "0.1.2"

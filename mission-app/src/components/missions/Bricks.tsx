@@ -5,6 +5,7 @@ import { useBrickArray, useHoveredId, usePointerLocations } from '../../store/br
 import { usePagination } from '../../store/globalStore';
 
 import Brick from './Brick';
+import Pointer from './Pointer';
 
 const getZIndex = (index: number, total: number) => Math.abs(Math.abs(total / 2 - index) - total / 2);
 
@@ -13,8 +14,8 @@ const Bricks = () => {
 
   const { hoveredId, setHoveredId } = useHoveredId();
   const { setPointerLocations } = usePointerLocations();
-  const { bricks } = useBrickArray();
-  const { paginated } = usePagination(bricks);
+  const { bricks, currentIndex } = useBrickArray();
+  const { paginated, currentPage, pageSize } = usePagination(bricks);
 
   const handleMouseMove = useCallback((event, id) => {
     event.stopPropagation();
@@ -38,6 +39,7 @@ const Bricks = () => {
             id={brick.id}
             height={40 + i * 20}
             hovered={hoveredId === brick.id}
+            havePointer={pageSize * (currentPage - 1) + i === currentIndex}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             width={50}
@@ -59,6 +61,7 @@ const useBricksStyles = createUseStyles((theme) => ({
     perspectiveOrigin: '70% -130px',
     height: '100%',
     width: '100%',
+    position: 'relative',
     // overflow: 'hidden',
     transform: 'translateY(300px)',
   },

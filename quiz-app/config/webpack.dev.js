@@ -1,18 +1,31 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
 
+const loadENV = require('../env-config');
+
+loadENV();
+
+const PORT = process.env.QUIZ_PORT;
+const HOST_URL = process.env.FRONT_END_HOST;
+
 const devConfig = {
   mode: 'development',
   devServer: {
-    port: 8083,
-
+    port: PORT,
+    host: HOST_URL,
     historyApiFallback: true,
+    contentBase: path.join(__dirname, 'dist'),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   },
   output: {
-    publicPath: 'http://localhost:8083/',
+    // publicPath: `http://${HOST_URL}:${PORT}/`,
+    publicPath: 'auto',
   },
   plugins: [
     new ModuleFederationPlugin({

@@ -1,20 +1,30 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
+const loadENV = require('../env-config');
+
+loadENV();
+
+const PORT = process.env.MAP_PORT;
+const HOST_URL = process.env.FRONT_END_HOST;
 
 const devConfig = {
   mode: 'development',
   devServer: {
-    port: 8085,
-    historyApiFallback: {
-      index: 'index.html',
+    port: PORT,
+    historyApiFallback: true,
+    // contentBase: path.join(__dirname, 'dist'),
+    host: HOST_URL,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
     },
-    // hot: true,
   },
   output: {
-    publicPath: 'http://localhost:8085/',
+    publicPath: `http://${HOST_URL}:${PORT}/`,
   },
   plugins: [
     new ModuleFederationPlugin({

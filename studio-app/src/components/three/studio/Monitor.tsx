@@ -25,9 +25,12 @@ type GLTFResult = GLTF & {
   };
 };
 
+const URL = `http://10.115.213.234:8082`;
+// console.log(process.env);
+
 export default function Monitor(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>();
-  const { nodes, materials } = useGLTF('./public/3d/common/monitor.glb') as GLTFResult;
+  const { nodes, materials } = useGLTF(`${URL}/public/3d/common/monitor.glb`) as GLTFResult;
   const monitorData = useStudioStore((state) => state.monitorData);
   const { position, rotation } = monitorData;
   return (
@@ -51,4 +54,4 @@ export default function Monitor(props: JSX.IntrinsicElements['group']) {
   );
 }
 
-useGLTF.preload('./public/3d/common/monitor.glb');
+useGLTF.preload(`${URL}/public/3d/common/monitor.glb`);

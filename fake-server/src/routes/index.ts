@@ -1,4 +1,0 @@
-/models
-/missions
-/quiz
-/map

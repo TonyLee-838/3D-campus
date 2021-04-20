@@ -15,7 +15,8 @@ import Monitor from './Monitor';
 import Wall from './Wall';
 // import NPC from './NPC';
 // import Note from './Note';
-// import CoordinateSystem from '../basic/CoordinateSystem';
+import CoordinateSystem from '../basic/CoordinateSystem';
+import Arrow from './Arrow';
 
 const StudioScene = () => {
   return (
@@ -23,7 +24,7 @@ const StudioScene = () => {
       {/* <Book />
       <Book rotation={[0, Math.PI / 2, 0]} position={[1, 1, 1]} />
       <Book rotation={[0, -Math.PI / 2, 0]} position={[1, 1, 1]} /> */}
-      {/* <CoordinateSystem /> */}
+      <CoordinateSystem />
       {/* <Books />
       <Note />
       <NPC />
@@ -32,6 +33,7 @@ const StudioScene = () => {
       <Ceiling />
       // <Desk />
       <Monitor /> */}
+      {/* <Arrow /> */}
       <Monitor />
       <Wall rotationY={0} />
       <Wall rotationY={Math.PI / 2} />
