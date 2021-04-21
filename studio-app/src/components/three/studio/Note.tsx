@@ -1,18 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+
+// components
+import Quiz from "../../dom/Quiz";
 
 // three
 import { Html, useGLTF, useHelper } from "@react-three/drei";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { a } from "react-spring/three";
 
 // hooks
 import { useStudioStore } from "../../../store/studioStore";
 import { useSuitablePosition } from "../../../hooks/useSuitablePosition";
-import { useSpring, a } from "react-spring/three";
-import { useBox } from "@react-three/cannon";
-import Quiz from "../../dom/Quiz";
-import { BoxHelper } from "three";
-
-// type
+import { useMouseControl } from "../../../hooks/useMouseControl";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -30,38 +29,24 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
   ) as GLTFResult;
   const deskData = useStudioStore((state) => state.deskData);
   const { position, rotation } = useStudioStore((state) => state.noteData);
-
-  // useHelper(group, BoxHelper, "red");
-
+  const { ready } = useMouseControl("desk");
   const config = {
     distance: 2.5,
     heightOfLookAt: 2,
     heightOfSubModelFineTune: -0.25,
-    // rotateZ: - Math.PI / 3,
   };
-
-  const {
-    playerInSuitablePosition,
-    startActivity,
-    endActivity,
-    activity,
-    subModelAnimation,
-  } = useSuitablePosition(deskData, { position, rotation }, config);
-
-  const handleClickNote = (e) => {
-    e.stopPropagation();
-    console.log(e.object);
-    if (playerInSuitablePosition("请站到指定位置")) {
-      startActivity("开始做习题");
-      // setTimeout(() => {
-      //   endActivity("取消做习题");
-      // }, 3000);
+  const { startActivity, endActivity, subModelAnimation } = useSuitablePosition(
+    deskData,
+    { position, rotation },
+    config
+  );
+  useEffect(() => {
+    if (ready.current) {
+      startActivity();
+    } else {
+      endActivity();
     }
-  };
-
-  const handleCloseQuiz = () => {
-    endActivity("取消");
-  };
+  }, [ready.current]);
 
   return (
     <a.group
@@ -69,11 +54,10 @@ export default function Model(props: JSX.IntrinsicElements["group"]) {
       {...props}
       dispose={null}
       scale={[0.02, 0.02, 0.02]}
-      position={subModelAnimation.position}
-      rotation={subModelAnimation.rotation}
-      onClick={handleClickNote}
+      position={subModelAnimation.position as any}
+      rotation={subModelAnimation.rotation as any}
     >
-      <Quiz onClick={handleCloseQuiz} />
+      <Quiz onClick={endActivity} />
       <group rotation={[0, 0, -Math.PI / 2]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group position={[-0.16, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>

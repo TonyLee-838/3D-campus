@@ -55,7 +55,7 @@ const useStyle = createUseStyles(
       // padding: '30px',
     },
   },
-  { index: 5 }
+  { index: 7, classNamePrefix: 'mission' }
 );
 
 export default MainScreen;

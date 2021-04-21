@@ -1,11 +1,12 @@
 import React from 'react';
-import AnotherApp from './AnotherApp';
+import LoadingPage from './pages/LoadingPage';
+import Router from './Router';
 
 const App = () => {
   return (
     <>
-      <h1>Hi there! This is from container App -- localhost:8080</h1>
-      <AnotherApp />
+      {/* <LoadingPage /> */}
+      <Router />
     </>
   );
 };

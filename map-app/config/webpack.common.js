@@ -13,8 +13,6 @@ const commonConfig = {
             ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
           ],
           plugins: [
-            // 'react-refresh/babel',
-
             [
               '@babel/plugin-transform-runtime',
               {
@@ -22,7 +20,6 @@ const commonConfig = {
                 corejs: false,
                 helpers: true,
                 regenerator: true,
-                // useESModules: true,
               },
             ],
             '@babel/plugin-transform-modules-commonjs',

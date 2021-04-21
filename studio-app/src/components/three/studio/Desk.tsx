@@ -6,6 +6,7 @@ import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 // hooks
 import { useStudioStore } from "../../../store/studioStore";
+import { useMouseControl } from "../../../hooks/useMouseControl";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -63,6 +64,7 @@ export default function Desk(props: JSX.IntrinsicElements["group"]) {
   ) as GLTFResult;
   const deskData = useStudioStore((state) => state.deskData);
   const { position, rotation } = deskData;
+  // useActivity(position);
   return (
     <group
       ref={group}

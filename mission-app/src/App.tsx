@@ -17,7 +17,7 @@ function App() {
   }, [setMissions, setSubjects]);
 
   return (
-    <div id='App' style={styles.app}>
+    <div style={styles.app}>
       <MainScreen />
     </div>
   );
@@ -25,7 +25,6 @@ function App() {
 
 const styles: AppStyleSheet = {
   app: {
-    width: '100vw',
     height: '100vh',
   },
 };

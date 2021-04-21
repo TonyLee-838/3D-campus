@@ -2,6 +2,7 @@ import React, { MouseEventHandler, useState } from 'react';
 import { createUseStyles } from 'react-jss';
 
 import { GradientColor } from '../../types';
+import Pointer from './Pointer';
 
 interface BrickProps {
   colors: GradientColor;
@@ -10,6 +11,7 @@ interface BrickProps {
   id: string;
   margin?: number;
   hovered: boolean;
+  havePointer: boolean;
   onMouseMove: (event, id) => void;
   onMouseLeave: () => void;
   width?: number;
@@ -33,17 +35,26 @@ const Brick = React.memo((props: BrickProps) => {
       onMouseEnter={(e) => props.onMouseMove(e, props.id)}
       onMouseLeave={props.onMouseLeave}
     >
+      {props.havePointer && <Pointer />}
       <div className={classes.front} />
-      <div className={classes.back} />
+      <div className={classes.back}></div>
       <div className={classes.left} />
-      <div className={classes.right} />
-      <div className={classes.top} />
+
+      <div className={classes.right}></div>
+      <div className={classes.top}>{/* <div className={classes.dot}></div> */}</div>
       <div className={classes.bottom} />
     </div>
   );
 });
 
 const useBrickStyles = createUseStyles<string, BrickProps>((theme) => ({
+  dot: {
+    width: 15,
+    height: 15,
+    borderRadius: 12.5,
+    backgroundColor: 'red !important',
+    opacity: 1,
+  },
   wrapper: {
     width: 'max-content',
     height: 'max-content',
@@ -92,6 +103,9 @@ const useBrickStyles = createUseStyles<string, BrickProps>((theme) => ({
     height: (props: BrickProps) => props.height,
   },
   top: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     transform: ({ width }: BrickProps) =>
       `rotateX(90deg) rotateZ(-90deg) translate3d(${-width / 2}px,${-width / 2}px,0px)`,
     transformOrigin: 'top center',

@@ -7,6 +7,8 @@ import { useThree } from "react-three-fiber";
 
 // hooks
 import { useStudioStore } from "../../../store/studioStore";
+import { useMouseControl } from "../../../hooks/useMouseControl";
+import { useSuitablePosition } from "../../../hooks/useSuitablePosition";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -52,8 +54,9 @@ export default function Bookshelf(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF(
     "./public/3d/common/bookshelf.glb"
   ) as GLTFResult;
-  const bookshelfData = useStudioStore((state) => state.bookshelfData);
-  const { position, rotation } = bookshelfData;
+  const { position, rotation } = useStudioStore((state) => state.bookshelfData);
+
+  useMouseControl("bookshelf");
 
   return (
     <group

@@ -1,19 +1,31 @@
+const path = require('path');
 const { merge, mergeWithCustomize, customizeArray } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
-const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
+const loadENV = require('../env-config');
+
+loadENV();
+
+const PORT = process.env.MISSION_PORT;
+const HOST_URL = process.env.FRONT_END_HOST;
 
 const devConfig = {
   mode: 'development',
+  output: {
+    publicPath: 'auto',
+  },
   devServer: {
-    port: 8081,
+    port: PORT,
+    contentBase: path.join(__dirname, 'dist'),
     historyApiFallback: {
       index: 'index.html',
     },
-    // hot: true,
+    host: HOST_URL,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   },
 
   plugins: [
@@ -28,8 +40,6 @@ const devConfig = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    // new HotModuleReplacementPlugin(),
-    // new ReactRefreshWebpackPlugin(),
   ],
 };
 

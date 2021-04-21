@@ -21,7 +21,7 @@ interface BrickStoreState extends State {
 export const useBrickStore = create<BrickStoreState>((setState) => ({
   hoveredId: '',
   pointerLocations: { x: 0, y: 0 },
-  selectedSubjectIndex: -1,
+  selectedSubjectIndex: 0,
 
   setHoveredId: (id: string) => setState({ hoveredId: id }),
   setPointerLocations: (locations: PointerLocations) => setState({ pointerLocations: locations }),

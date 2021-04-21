@@ -59,6 +59,10 @@ const commonConfig = {
         loader: 'html-loader',
       },
       {
+        test: /\.gif$/i,
+        loader: 'file-loader',
+      },
+      {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
@@ -66,7 +70,18 @@ const commonConfig = {
   },
 
   resolve: {
-    extensions: ['.web.js', '.web.ts', '.web.tsx', '.tsx', '.ts', '.js', '.json', '.jsx', '.css'],
+    extensions: [
+      '.web.js',
+      '.web.ts',
+      '.web.tsx',
+      '.tsx',
+      '.ts',
+      '.js',
+      '.json',
+      '.jsx',
+      '.css',
+      '.gif',
+    ],
   },
   output: {
     filename: 'bundle.js',

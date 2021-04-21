@@ -11,17 +11,17 @@ const PaginationButtons = () => {
     setCurrentPage(currentPage + 1);
   };
   const decrementPage = () => {
+    if (currentPage === 1) return;
     setCurrentPage(currentPage - 1);
   };
 
   return (
     <div style={styles.buttons}>
       <div>
-        <Button variant='contained' color='primary'>
+        <Button variant='contained' color='primary' onClick={decrementPage}>
           {'<-'}
         </Button>
-        {currentPage}
-        <Button variant='contained' color='primary'>
+        <Button variant='contained' color='primary' onClick={incrementPage}>
           {'->'}
         </Button>
       </div>

@@ -1,24 +1,33 @@
-import { GeoPosition, LL, LocalPosition, Projector, XY } from '../../types/ChinaMap';
+import {
+  GeoPosition,
+  LL,
+  LocalPosition,
+  Projector,
+  XY,
+} from "../../types/ChinaMap";
 
-import { Vector3, Mesh } from 'three';
+import { Vector3, Mesh } from "three";
 
-import { geoMercator } from 'd3-geo';
+import { geoMercator } from "d3-geo";
 
 const MAP_SCALE: number = 250;
 const CENTER_POSITION: [number, number] = [105.367, 34.031];
 
 const createProjector = () => {
-  return geoMercator().center(CENTER_POSITION).scale(MAP_SCALE).translate([0, 0]);
+  return geoMercator()
+    .center(CENTER_POSITION)
+    .scale(MAP_SCALE)
+    .translate([0, 0]);
 };
 
 export const mapDepth: number = 4.1;
 
-// export const getProjection: Projector = createProjector();
+export const projection: Projector = createProjector();
 
 // change Latitude and longitude(lL) to x and y
 // lL: [longitude, Latitude]
 export const getLocalPosition = ({ lat, lng }: GeoPosition): LocalPosition => {
-  const [x, y] = createProjector()([lat, lng]);
+  const [x, y] = projection([lat, lng]);
 
   return {
     x,

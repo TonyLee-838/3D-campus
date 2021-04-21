@@ -19,6 +19,7 @@ const FirstPersonalControl = () => {
   const { camera, gl } = useThree();
 
   const pointerControlRef = useRef<PointerLockControls>(null!);
+
   const fogRef = useRef<Mesh>();
 
   const {
@@ -38,20 +39,28 @@ const FirstPersonalControl = () => {
   }));
 
   const setControlApi = useStudioStore((state) => state.setControlApi);
-  setControlApi(api);
+  const setPointerLockControlRef = useStudioStore(
+    (state) => state.setPointerLockControlRef
+  );
 
   const velocity = useRef([0, 0, 0]);
   useEffect(() => {
     api.velocity.subscribe((v) => (velocity.current = v));
+    setControlApi(api);
   }, [api]);
 
+  useEffect(() => {
+    if (pointerControlRef) setPointerLockControlRef(pointerControlRef.current);
+  }, [pointerControlRef]);
+
   useFrame(() => {
-    // if pointerLocked === false, player can't control himself/herself
-    if (!cylinderRef.current || !pointerLocked) return;
+    if (!cylinderRef.current) return;
 
     const position = cylinderRef.current.position;
     camera.position.copy(position);
     camera.translateY(1.7);
+    // user can't move if it's unlock
+    if (!pointerLocked) return;
 
     fogRef.current?.position.copy(position);
 
@@ -80,7 +89,6 @@ const FirstPersonalControl = () => {
 
   return (
     <>
-      {/* {if pointerLocked === false, player can't control camera} */}
       {pointerLocked && (
         <PointerLockControls
           ref={pointerControlRef}
