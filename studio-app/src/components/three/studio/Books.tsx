@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 // components
-import Book from './Book-archived';
+import Book from "./Book-archived";
 
 // http
-import { getBooksData } from '../../../http/studio';
+import { getBooksData } from "../../../http/studio";
 
 // type
-import { BookModelData } from '../../../types/studio';
+import { BookModelData } from "../../../types/studio";
 
 const Books = () => {
   const [data, setData] = useState<BookModelData[]>(null);
@@ -22,7 +22,11 @@ const Books = () => {
     <group>
       {data &&
         data.map((item, i) => (
-          <Book position={item.position} rotation={item.rotation} key={`book-${i}`} />
+          <Book
+            position={item.position}
+            rotation={item.rotation}
+            key={`book-${i}`}
+          />
         ))}
     </group>
   );

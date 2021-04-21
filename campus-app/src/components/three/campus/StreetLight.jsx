@@ -4,9 +4,10 @@ import { useGLTF } from '@react-three/drei';
 
 //Hooks
 import { useConfiguredGLTF } from '../../../hooks/useConfiguredGLTF';
+import { getPublicPath } from '../../../utils/getPublicPath';
 
 const StreetLight = ({ position, rotation }) => {
-  const { materials, nodes } = useConfiguredGLTF(`block/street-light.glb`);
+  const { materials, nodes } = useConfiguredGLTF(`${getPublicPath()}/3d/block/street-light.glb`);
   //
   return (
     <group dispose={null} scale={[0.1, 0.1, 0.1]} position={position} rotation={rotation}>
@@ -19,6 +20,6 @@ const StreetLight = ({ position, rotation }) => {
   );
 };
 
-// useGLTF.preload(`block/street-light.glb`);
+useGLTF.preload(`${getPublicPath()}/3d/block/street-light.glb`);
 
 export default StreetLight;

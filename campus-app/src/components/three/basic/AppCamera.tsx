@@ -12,10 +12,6 @@ interface forwardProps {
 }
 
 const AppCamera = (props: forwardProps) => {
-  return (
-    <PerspectiveCamera makeDefault position={props.position} {...cameraConfig}>
-      {props.children}
-    </PerspectiveCamera>
-  );
+  return <PerspectiveCamera makeDefault position={props.position} {...cameraConfig} />;
 };
 export default AppCamera;

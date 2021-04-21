@@ -14,10 +14,8 @@ const setCustomColors = (material: Material, color: string) => {
   Object.assign(material, { color: new Color(color) });
 };
 
-const BASE_PATH = 'http://10.115.213.234:8086/public/3d/';
-
 export const useConfiguredGLTF = (path: string, options: configuredGLTFOptions = {}) => {
-  const gltf = useGLTF(BASE_PATH + path, false);
+  const gltf = useGLTF(path, false);
 
   const { materials, scene } = gltf;
 

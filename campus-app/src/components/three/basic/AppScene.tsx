@@ -9,6 +9,7 @@ import AppLights from './AppLights';
 import AppControl from './AppControl';
 
 import colors from '../../../config/colors';
+import { OrbitControls } from '@react-three/drei';
 
 interface AppCanvasProps {
   children: ReactNode;
@@ -18,7 +19,7 @@ const AppScene = ({ children }: AppCanvasProps) => {
   return (
     <>
       <AppCamera />
-      {/* <fog attach='fog' args={[colors.white, 200, 450]} /> */}
+      <fog attach='fog' args={[colors.white, 200, 450]} />
       <AppLights />
 
       <Physics gravity={[0, -35, 0]}>

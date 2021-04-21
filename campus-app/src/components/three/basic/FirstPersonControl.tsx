@@ -1,40 +1,32 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
 
 // three
-import { useThree, useFrame } from "react-three-fiber";
-import { PointerLockControls } from "@react-three/drei";
-import { useSphere } from "@react-three/cannon";
-import { Mesh, Vector3 } from "three";
+import { useThree, useFrame } from 'react-three-fiber';
+import { PointerLockControls } from '@react-three/drei';
+import { useSphere } from '@react-three/cannon';
+import { Mesh, Vector3 } from 'three';
 
 // hooks
-import { usePlayerControls } from "../../../hooks/useUserControl";
-import colors from "../../../config/colors";
-import { useCampusStore } from "../../../store/CampusStore";
+import { usePlayerControls } from '../../../hooks/useUserControl';
+import colors from '../../../config/colors';
+import { useCampusStore } from '../../../store/CampusStore';
 
 const SPEED = 120;
 
 const FirstPersonalControl = () => {
   const pointerLocked = useCampusStore((state) => state.pointerLocked);
-  const setPointerLockControlRef = useCampusStore(
-    (state) => state.setPointerLockControlRef
-  );
+  const setPointerLockControlRef = useCampusStore((state) => state.setPointerLockControlRef);
 
   const { camera, gl } = useThree();
 
   const pointerControlRef = useRef<PointerLockControls>();
   const fogRef = useRef<Mesh>();
 
-  const {
-    moveForward,
-    moveBackward,
-    moveLeft,
-    moveRight,
-    jump,
-  } = usePlayerControls();
+  const { moveForward, moveBackward, moveLeft, moveRight, jump } = usePlayerControls();
 
   const [cylinderRef, api] = useSphere(() => ({
     fixedRotation: false,
-    position: [5, 5, 5],
+    position: [2, 2, 2],
     args: 1,
     mass: 50,
     rotation: [0, 0, 0],
@@ -65,11 +57,7 @@ const FirstPersonalControl = () => {
 
     const direction = new Vector3();
 
-    const frontVector = new Vector3(
-      0,
-      0,
-      Number(moveBackward) - Number(moveForward)
-    );
+    const frontVector = new Vector3(0, 0, Number(moveBackward) - Number(moveForward));
     const sideVector = new Vector3(Number(moveLeft) - Number(moveRight), 0, 0);
 
     direction
@@ -89,15 +77,11 @@ const FirstPersonalControl = () => {
   return (
     <>
       {pointerLocked && (
-        <PointerLockControls
-          ref={pointerControlRef}
-          camera={camera}
-          domElement={gl.domElement}
-        />
+        <PointerLockControls ref={pointerControlRef} camera={camera} domElement={gl.domElement} />
       )}
 
       <mesh ref={cylinderRef}>
-        <sphereBufferGeometry args={[1.7]} />
+        <sphereBufferGeometry args={[1]} />
         <meshBasicMaterial color={colors.oranges.carrot} />
       </mesh>
     </>

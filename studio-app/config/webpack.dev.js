@@ -9,7 +9,6 @@ const packageJson = require('../package.json');
 const loadENV = require('../env-config');
 
 const envs = loadENV();
-// console.log('envs: ', envs);
 
 const PORT = process.env.STUDIO_PORT;
 const MISSION_PORT = process.env.MISSION_PORT;

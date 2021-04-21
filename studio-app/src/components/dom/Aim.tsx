@@ -1,16 +1,10 @@
+import { withWidth } from "@material-ui/core";
 import React from "react";
 import colors from "../../config/colors";
 import { StyleSheet } from "../../types";
 
 const Aim = () => {
-  return (
-    <div style={styles.container}>
-      <div style={styles.aim}></div>
-      <div style={styles.aim}></div>
-      <div style={{ ...styles.left, ...styles.left }}></div>
-      <div style={{ ...styles.left, ...styles.right }}></div>
-    </div>
-  );
+  return <div style={styles.container}></div>;
 };
 
 const styles: StyleSheet = {
@@ -20,19 +14,11 @@ const styles: StyleSheet = {
     left: "50%",
     top: "50%",
     transform: "translateX(-50%) translateY(-50%)",
-  },
-  aim: {
-    width: 3,
-    height: 18,
-    backgroundColor: "lightseagreen",
-    position: "absolute",
-    opacity: 0.6,
-  },
-  left: {
-    transform: "rotateZ(90deg)",
-  },
-  right: {
-    transform: "rotateZ(-90deg)",
+    backgroundColor: "red",
+    width: 15,
+    height: 15,
+    borderRadius: 7.5,
+    opacity: 0.5,
   },
 };
 

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+// components
+
 // three
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
@@ -8,6 +10,8 @@ import { useThree } from "react-three-fiber";
 // hooks
 import { useStudioStore } from "../../../store/studioStore";
 import { useSuitablePosition } from "../../../hooks/useSuitablePosition";
+import { useMouseControl } from "../../../hooks/useMouseControl";
+import { getSuitablePositionForNPC } from "../../../hooks/useSuitablePositionForNPC";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -43,8 +47,26 @@ export default function NPC(props: JSX.IntrinsicElements["group"]) {
   ) as GLTFResult;
   const { actions } = useAnimations(animations, group);
 
-  const { camera } = useThree();
   const npcData = useStudioStore((state) => state.npcData);
+  const setShowMissionPanel = useStudioStore(
+    (state) => state.setShowMissionPanel
+  );
+  const { ready } = useMouseControl("npc");
+
+  const lookAtPosition = getSuitablePositionForNPC(npcData).lookAtPosition;
+  lookAtPosition[0] += 0.5;
+  const { activity, startActivity } = useSuitablePosition(npcData, null, {
+    lookAtPosition,
+    modelName: "npc",
+  });
+  useEffect(() => {
+    if (ready.current) {
+      startActivity();
+      setShowMissionPanel(true);
+    } else {
+      setShowMissionPanel(false);
+    }
+  }, [ready.current]);
 
   const { position, rotation } = npcData;
   useEffect(() => {
@@ -55,12 +77,9 @@ export default function NPC(props: JSX.IntrinsicElements["group"]) {
       ref={group}
       {...props}
       dispose={null}
-      scale={[1.2, 1.2, 1.2]}
+      scale={[0.9, 0.9, 0.9]}
       position={position}
       rotation={rotation}
-      onClick={() => {
-        console.log(camera);
-      }}
     >
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group position={[0, -0.56, 3.23]}>

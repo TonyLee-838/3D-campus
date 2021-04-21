@@ -10,7 +10,7 @@ const Progress = () => {
   useEffect(() => {
     setTimeout(() => {
       setActive(active + 1);
-    }, 800);
+    }, 500);
   }, [active]);
 
   return (
@@ -37,7 +37,7 @@ const useStyle = createUseStyles(() => ({
   container: {},
   text: {
     color: '#ffffff',
-    fontFamily: 'agency_fb, monospace',
+    fontFamily: 'monospace',
     fontWeight: 400,
     textAlign: 'center',
   },
@@ -52,7 +52,7 @@ const useStyle = createUseStyles(() => ({
     border: '3px solid white',
     margin: '0 10px',
     backgroundColor: '#04002e',
-    transition: 'background 0.8s ease, transform 0.5s ease',
+    transition: 'all 0.8s ease',
   },
   light: {
     backgroundColor: '#ffffff',

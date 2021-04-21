@@ -20,7 +20,6 @@ const colors = {
   },
   yellows: {
     toasted: '#fbcb7b',
-    light: '#feff00',
   },
   reds: {
     watermelon: '#fa6e59',

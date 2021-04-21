@@ -23,13 +23,13 @@ const Quiz = ({ onClick }) => {
       className={classes.container}
     >
       <QuizApp />
-      <IconButton
+      {/* <IconButton
         aria-label="cancel"
         className={classes.close}
         onClick={onClick}
       >
         <CloseRounded />
-      </IconButton>
+      </IconButton> */}
     </Html>
   );
 };

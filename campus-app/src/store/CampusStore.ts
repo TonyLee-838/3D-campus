@@ -1,8 +1,8 @@
-import create, { State } from "zustand";
+import create, { State } from 'zustand';
 
 // types
-import { PointerLockControls } from "@react-three/drei";
-import { Dims2, IBlock, IBuilding, SuitablePositions } from "../types";
+import { PointerLockControls } from '@react-three/drei';
+import { Dims2, IBlock, IBuilding, SuitablePositions } from '../types';
 
 type EnterStudio = (buildingId: string) => void;
 
@@ -17,9 +17,7 @@ interface CampusStoreState extends State {
   showEntireMap: boolean;
   playerPosition: Dims2;
 
-  setPointerLockControlRef: (
-    pointerLockControlRef: PointerLockControls
-  ) => void;
+  setPointerLockControlRef: (pointerLockControlRef: PointerLockControls) => void;
   setPointerLocked: (pointerLocked: boolean) => void;
   setSuitablePositions: (buildings: SuitablePositions) => void;
   setMessage: (message: string) => void;
@@ -41,8 +39,7 @@ export const useCampusStore = create<CampusStoreState>((set) => ({
   showEntireMap: false,
   playerPosition: [0, 0],
 
-  setPointerLockControlRef: (pointerLockControlRef) =>
-    set({ pointerLockControlRef }),
+  setPointerLockControlRef: (pointerLockControlRef) => set({ pointerLockControlRef }),
   setPointerLocked: (pointerLocked) => set({ pointerLocked }),
   setSuitablePositions: (suitablePositions) => set({ suitablePositions }),
   setMessage: (message) => set({ message }),

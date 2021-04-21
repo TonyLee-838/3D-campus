@@ -24,7 +24,7 @@ export interface BookContent {
 
 export type MissionStatus = "finished" | "doing" | "no-assigin";
 
-export type MissionType = "exercise" | "vedio";
+export type MissionType = "exercise" | "video";
 
 export interface MissionData {
   courseId: number;
@@ -37,4 +37,13 @@ export interface MissionData {
 
 export interface MissionsData {
   [key: string]: MissionData[];
+}
+
+export type ModelName = "bookshelf" | "monitor" | "desk" | "npc" | "none";
+
+export interface SuitablePositions {
+  bookshelf: Dims3;
+  monitor: Dims3;
+  desk: Dims3;
+  npc: Dims3;
 }

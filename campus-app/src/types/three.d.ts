@@ -1,11 +1,6 @@
-export type KeyType = "KeyW" | "KeyA" | "KeyS" | "KeyD" | "Space";
+export type KeyType = 'KeyW' | 'KeyA' | 'KeyS' | 'KeyD' | 'Space';
 
-export type MovementType =
-  | "moveForward"
-  | "moveBackward"
-  | "moveLeft"
-  | "moveRight"
-  | "jump";
+export type MovementType = 'moveForward' | 'moveBackward' | 'moveLeft' | 'moveRight' | 'jump';
 
 export type KeyMap = {
   [key in KeyType]: MovementType;
@@ -22,15 +17,7 @@ export interface IRoad {
   to: Dims2;
 }
 
-export type BuildingModelType =
-  | "b1"
-  | "b2"
-  | "b3"
-  | "b4"
-  | "b5"
-  | "b6"
-  | "b7"
-  | "b8";
+export type BuildingModelType = 'b1' | 'b2' | 'b3' | 'b4' | 'b5' | 'b6' | 'b7' | 'b8';
 
 export interface IBuilding {
   id: string;
@@ -53,13 +40,26 @@ export interface IBlock {
   buildings: IBuilding[];
 }
 
-export type EdgeType = "up" | "down" | "left" | "right";
+export interface ISmallDecoration extends ExternalModel {
+  type: '1' | '2' | '3' | '4' | '5';
+}
+export interface Intersection extends ExternalModel {
+  crossWalkAmount: number;
+}
+
+export interface ExternalModel {
+  position: Dims2;
+  rotationY: number;
+  scale?: number;
+}
+
+export type EdgeType = 'up' | 'down' | 'left' | 'right';
 
 export type EdgeDecorations = {
   [key in EdgeType]: EdgeDecorationType[];
 };
 
-export type EdgeDecorationType = "trees" | "lights";
+export type EdgeDecorationType = 'trees' | 'lights';
 
 export type SuitablePosition = Dims2;
 

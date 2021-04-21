@@ -1,7 +1,8 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 import LoadingPage from './pages/LoadingPage';
+import LoginPage from './pages/LoginPage';
 
 const CampusApp = lazy(() => import('./remotes/CampusApp'));
 const MapApp = lazy(() => import('./remotes/MapApp'));
@@ -35,6 +36,8 @@ const Router = () => {
             </Suspense>
           )}
         />
+        <Route path='/login' component={LoginPage} />
+        <Redirect from='/' to='/login' />
       </Switch>
     </BrowserRouter>
   );

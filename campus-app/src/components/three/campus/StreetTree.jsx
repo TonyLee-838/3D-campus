@@ -5,9 +5,10 @@ import { useGLTF } from '@react-three/drei';
 
 //Hooks
 import { useConfiguredGLTF } from '../../../hooks/useConfiguredGLTF';
+import { getPublicPath } from '../../../utils/getPublicPath';
 
 const StreetTree = ({ position, rotation }) => {
-  const { materials, nodes } = useConfiguredGLTF(`block/tree-1.glb`);
+  const { materials, nodes } = useConfiguredGLTF(`${getPublicPath()}/3d/block/tree-1.glb`);
 
   return (
     <group dispose={null} rotation={rotation} position={position}>
@@ -21,5 +22,5 @@ const StreetTree = ({ position, rotation }) => {
   );
 };
 
-// useGLTF.preload(`public/3d/block/tree-1.glb`);
+useGLTF.preload(`${getPublicPath()}/3d/block/tree-1.glb`);
 export default StreetTree;

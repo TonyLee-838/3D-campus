@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-const mount = (el) => {
-  ReactDOM.render(<App />, el);
+const mount = (el, { onNavigateOut }) => {
+  ReactDOM.render(<App onNavigate={onNavigateOut} />, el);
 };
 
 if (process.env.NODE_ENV === 'development') {

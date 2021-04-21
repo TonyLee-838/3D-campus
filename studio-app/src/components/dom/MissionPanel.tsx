@@ -57,9 +57,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     width: 460,
     position: "absolute",
-    left: "50%",
+    left: "30%",
     top: "50%",
     transform: "translateX(-50%) translateY(-50%)",
+    zIndex: 500,
   },
   list: {
     width: "100%",
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const MissionPanel = ({ handleClose }) => {
+const MissionPanel = () => {
   const classes = useStyles();
   // tab value
   const [value, setValue] = useState<number>(0);
@@ -166,13 +167,13 @@ const MissionPanel = ({ handleClose }) => {
             ))}
         </Select>
         {/* 关闭图标 */}
-        <IconButton
+        {/* <IconButton
           aria-label="cancel"
           style={{ position: "absolute", right: 6 }}
-          onClick={handleClose}
+          // onClick={handleClose}
         >
           <Cancel />
-        </IconButton>
+        </IconButton> */}
       </div>
       {/* Tab栏 */}
       <AppBar position="static" style={{ marginTop: 10 }}>
@@ -192,8 +193,8 @@ const MissionPanel = ({ handleClose }) => {
           shownMissionsData.map((item, i) => (
             <ListItem key={`list-item-${i}`}>
               <ListItemIcon style={{ marginRight: 20 }}>
-                {item.type === "vedio" ? <LiveTv /> : <Create />}
-                {item.type === "vedio" ? "视频" : "习题"}
+                {item.type === "video" ? <LiveTv /> : <Create />}
+                {item.type === "video" ? "视频" : "习题"}
               </ListItemIcon>
               <ListItemText primary={item.missionName} />
               <ListItemSecondaryAction>

@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 // three
+import { SkinnedMesh } from "three";
 import { useGLTF, useAnimations, Html } from "@react-three/drei";
 import { useSpring, a } from "react-spring/three";
 import { useThree } from "react-three-fiber";
@@ -11,12 +12,15 @@ import BookContent from "../../dom/BookContent";
 // hooks
 import { useStudioStore } from "../../../store/studioStore";
 import { useSuitablePosition } from "../../../hooks/useSuitablePosition";
+import { useMouseControl } from "../../../hooks/useMouseControl";
 
 export default function Book({ position, rotation }) {
   const group = useRef();
+
   const { nodes, materials, animations } = useGLTF(
     "./public/3d/book/book.gltf"
   );
+
   const { actions, mixer } = useAnimations(animations, group);
   useEffect(() => {
     const animation = actions["Take 01"];
@@ -29,6 +33,7 @@ export default function Book({ position, rotation }) {
   }, [actions]);
 
   const bookshelfData = useStudioStore((state) => state.bookshelfData);
+  const pointerLocked = useStudioStore((state) => state.pointerLocked);
 
   const playInOrder = () => {
     const animation = actions["Take 01"];
@@ -50,7 +55,6 @@ export default function Book({ position, rotation }) {
     startActivity,
     endActivity,
     subModelAnimation,
-    playerInSuitablePosition,
   } = useSuitablePosition(bookshelfData, {
     position,
     rotation,
@@ -59,22 +63,24 @@ export default function Book({ position, rotation }) {
   });
 
   const handleOpenBook = () => {
-    if (playerInSuitablePosition("请站到书柜前")) {
-      startActivity("开始读书");
+    if (pointerLocked) {
+      return console.log("go to good position and press E");
     }
+    if (activity) {
+      return console.log("it is open now!!!");
+    }
+    startActivity();
   };
   const handleCloseBook = () => {
-    endActivity("读书完成");
+    endActivity();
   };
-
-  const openBook = subModelAnimation;
 
   return (
     <group ref={group} dispose={null} onClick={handleOpenBook}>
       <a.group
         name="RootNode_(gltf_orientation_matrix)"
-        position={openBook.position}
-        rotation={openBook.rotation}
+        position={subModelAnimation.position}
+        rotation={subModelAnimation.rotation}
         scale={[0.3, 0.3, 0.3]}
       >
         <primitive object={nodes.Armature_rootJoint} />

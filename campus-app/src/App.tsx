@@ -11,26 +11,15 @@ import DomMain from './components/dom/DomMain';
 import { useCampusStore } from './store/CampusStore';
 import { useAppPrepare } from './hooks/useAppPrepare';
 
-const PORT = 8086;
-
-function App({
-  onNavigate = (id: string) => {
-    window.location.replace(`http://10.139.85.66:8082?studioId=${id}`);
-  },
-}) {
+function App({ onNavigate }) {
   useAppPrepare();
   const setEnterStudio = useCampusStore((state) => state.setEnterStudio);
   setEnterStudio(onNavigate);
-
-  useEffect(() => {
-    globalThis.publicPath = `http://${location.hostname}:${PORT}`;
-  }, []);
 
   return (
     <div className='App'>
       <DomMain />
       <Canvas concurrent colorManagement>
-        <CoordinateSystem />
         <CampusScene />
       </Canvas>
     </div>
