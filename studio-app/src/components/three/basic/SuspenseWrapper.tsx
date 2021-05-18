@@ -8,7 +8,7 @@ const SuspenseWrapper = ({ children }: SuspenseWrapperProps) => {
   return (
     <>
       {Children.map(children, (child, i) => (
-        <Suspense fallback={null} key={`suspense-${i}`}>
+        <Suspense fallback={null} key={child.id}>
           {child}
         </Suspense>
       ))}

@@ -67,7 +67,7 @@ const Schools = ({
         const position = new Vector3(x, y, mapDepth + 1.2);
         return (
           <School
-            key={`school-${id}`}
+            key={info.id}
             position={position}
             userData={{ id, name, info }}
             onPointerMove={onPointerMove}

@@ -13,7 +13,7 @@ const Circles = () => {
     <group>
       {suitablePositions &&
         Object.keys(suitablePositions).map((key, i) => (
-          <Circle position={suitablePositions[key]} key={`circle-${i}`} />
+          <Circle position={suitablePositions[key]} key={suitablePositions[key].id} />
         ))}
     </group>
   );

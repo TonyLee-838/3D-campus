@@ -99,7 +99,7 @@ ProvincesProps) => {
         return (
           <Province
             provinceData={feature}
-            key={`province-${i}`}
+            key={feature.id}
             onPointerOut={onPointerOut}
             onPointerOver={onPointerOver}
             onPointerMove={onPointerMove}

@@ -54,12 +54,12 @@ const CampusScene = () => {
   return (
     <AppScene>
       <GroundGrid />
-      {blocks && blocks.map((block) => <Block {...block} key={getUniqueId('block')} />)}
+      {blocks && blocks.map((block) => <Block {...block} key={block.id} />)}
       {groundBoxPositions.map((position) => (
         <GroundBox position={position} />
       ))}
       {intersections.map((intersection) => (
-        <RoadIntersection {...intersection} key={getUniqueId('intersection')} />
+        <RoadIntersection {...intersection} key={intersection.id} />
       ))}
       {busStations.map((station) => (
         <Station {...station} />

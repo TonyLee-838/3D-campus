@@ -18,7 +18,7 @@ const Circles = () => {
         Object.keys(suitablePositions).map((key, i) => {
           const item = suitablePositions[key];
           const position: Dims3 = [item[0], 3, item[1]];
-          return <Circle position={position} key={`circle-${i}`} />;
+          return <Circle position={position} key={item.id} />;
         })}
     </group>
   );

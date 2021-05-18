@@ -54,7 +54,7 @@ const EntireMap = ({ forMiniMap = false }: EntireMapProps) => {
       {blocks &&
         blocks.map((block, i) => {
           const { position, dimensions } = block;
-          return <div style={getBlockStyle(position, dimensions)} key={`block-${i}`} />;
+          return <div style={getBlockStyle(position, dimensions)} key={block.id} />;
         })}
       {buildings &&
         buildings.map(({ position, name, id }) => {
@@ -62,7 +62,7 @@ const EntireMap = ({ forMiniMap = false }: EntireMapProps) => {
 
           return (
             <StudioMark
-              key={getUniqueId('studio-mark')}
+              key={id}
               studio={_studio}
               hovered={id === hoveredId}
               onMouseOver={() => handleMouseOver(_studio)}

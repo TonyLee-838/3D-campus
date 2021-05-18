@@ -21,7 +21,7 @@ const SubjectTabs = () => {
     <Tabs id='tabs' value={selectedSubjectIndex} onChange={(_, index) => handleSelectSubject(index)}>
       {/* <Tab label='全部' value={-1} /> */}
       {subjects.map((subject, index) => (
-        <Tab label={subject.name} value={index} key={`subject-tab-${subject.name}`} />
+        <Tab label={subject.name} value={index} key={subject.id} />
       ))}
     </Tabs>
   );

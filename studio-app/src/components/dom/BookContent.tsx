@@ -49,7 +49,7 @@ const BookContent = ({ handleClose }: BookContentProps) => {
           <div style={styles.left}>
             {content.slice(0, 5).map((item, i) => {
               return (
-                <div key={`left-content-${i}`}>
+                <div key={item.id}>
                   <h4
                     style={styles.vedioTitle}
                     onClick={() => handlePlayVedio(item.url)}
@@ -63,7 +63,7 @@ const BookContent = ({ handleClose }: BookContentProps) => {
           <div style={styles.right}>
             {content.slice(5, 10).map((item, i) => {
               return (
-                <div key={`right-content-${i}`}>
+                <div key={item.id}>
                   <h4
                     style={styles.vedioTitle}
                     onClick={() => handlePlayVedio(item.url)}

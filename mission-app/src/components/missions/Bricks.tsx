@@ -35,7 +35,7 @@ const Bricks = () => {
         return (
           <Brick
             colors={brick.colors}
-            key={`brick-${brick.id}`}
+            key={brick.id}
             id={brick.id}
             height={40 + i * 20}
             hovered={hoveredId === brick.id}

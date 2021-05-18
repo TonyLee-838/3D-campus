@@ -14,8 +14,8 @@ const RoadIntersection = ({ crossWalkAmount, position, rotationY, scale }: RoadI
   const [x, z] = position;
   return (
     <group position={[x, 2.7, z]} scale={[0.2, 0.2, 0.2]} rotation={[0, rotationY, 0]}>
-      {Array.from({ length: crossWalkAmount }).map((_, i) => (
-        <CrossWalk key={getUniqueId('cross-walk')} rotation={[0, (Math.PI / 2) * i, 0]} />
+      {Array.from({ length: crossWalkAmount }).map((_, id) => (
+        <CrossWalk key={id} rotation={[0, (Math.PI / 2) * i, 0]} />
       ))}
     </group>
   );

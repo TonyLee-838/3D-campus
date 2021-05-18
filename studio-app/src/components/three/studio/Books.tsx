@@ -25,7 +25,7 @@ const Books = () => {
           <Book
             position={item.position}
             rotation={item.rotation}
-            key={`book-${i}`}
+            key={item.id}
           />
         ))}
     </group>

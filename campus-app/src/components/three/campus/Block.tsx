@@ -34,20 +34,20 @@ const Block = (props: IBlock) => {
       </mesh>
 
       {props.buildings.map((building) => (
-        <Building {...building} key={getUniqueId("building")} />
+        <Building {...building} key={building.id} />
       ))}
-      {treePositions.map(({ position, rotation }) => (
+      {treePositions.map(({ position, rotation , id}) => (
         <StreetTree
           position={position}
           rotation={rotation}
-          key={getUniqueId("tree")}
+          key={id}
         />
       ))}
-      {lightPositions.map(({ position, rotation }) => (
+      {lightPositions.map(({ position, rotation , id}) => (
         <StreetLight
           position={position}
           rotation={rotation}
-          key={getUniqueId("light")}
+          key={id}
         />
       ))}
     </group>

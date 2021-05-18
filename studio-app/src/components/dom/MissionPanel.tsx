@@ -161,7 +161,7 @@ const MissionPanel = () => {
           <MenuItem value={"all"}>所有科目</MenuItem>
           {coursesData &&
             coursesData.map((item, i) => (
-              <MenuItem key={`course-${i}`} value={item}>
+              <MenuItem key={item.id} value={item}>
                 {item}
               </MenuItem>
             ))}

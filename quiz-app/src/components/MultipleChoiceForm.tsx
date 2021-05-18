@@ -29,7 +29,7 @@ const MultipleChoiceQuestionForm = ({
           {question.options.map((option) => (
             <FormControlLabel
               value={option.label}
-              key={`option-${option.label}-${question.id}`}
+              key={option.id}
               control={<Radio />}
               label={`${option.label}.\t\t${option.content}`}
             />

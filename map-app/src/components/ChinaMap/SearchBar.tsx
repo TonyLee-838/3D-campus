@@ -62,7 +62,7 @@ const SearchBar = ({ searchData, onSelectSearchResult }: SearchBarProps) => {
                 onClick={() => {
                   onSelectSearchResult(id);
                 }}
-                key={`list-item-${id}`}
+                key={id}
               >
                 <ListItemText primary={name} />
               </ListItem>
