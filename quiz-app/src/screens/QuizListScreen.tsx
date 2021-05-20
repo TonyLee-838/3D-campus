@@ -1,50 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createUseStyles } from 'react-jss';
 
-import {
-  Badge,
-  Button,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Step,
-  StepContent,
-  StepLabel,
-  Stepper,
-  Typography,
-} from '@material-ui/core';
 import { LibraryBooks } from '@material-ui/icons';
+import { Badge, Button, Step, StepContent, StepLabel, Stepper, Typography } from '@material-ui/core';
 
 import Screen from '../components/common/Screen';
-import { log } from 'node:console';
-import { useHistory } from 'react-router';
-import { useNavigation } from '../store/useStore';
-
-const quizzes = [
-  {
-    id: 'jdanofka',
-    title: '互换性与测量技术 1',
-    description: '章节 1.1.1 练习题',
-  },
-  {
-    id: 'gsgd',
-    title: '互换性与测量技术 232',
-    description: '章节 1.3.1 练习题',
-  },
-  {
-    id: 'fgsdg',
-    title: '互换性与测量技术 3',
-    description: '章节 2.1.1 练习题',
-  },
-];
+import { useNavigation, useStore } from '../store/useStore';
+import { getQuiz, getQuizList } from '../api';
 
 const QuizListScreen = () => {
   const classes = useStyle();
-  const history = useHistory();
+
   const { navigate } = useNavigation();
 
+  const [quizzes, setQuizzes] = useState([]);
   const [activeQuiz, setActiveQuiz] = useState<number>(-1);
+
+  const setQuiz = useStore((state) => state.setQuiz);
+
+  const fetchQuizList = async () => {
+    const list = await getQuizList();
+    setQuizzes(list);
+  };
+
+  useEffect(() => {
+    fetchQuizList();
+  });
 
   const handleReset = () => {
     setActiveQuiz(-1);
@@ -55,9 +36,10 @@ const QuizListScreen = () => {
     setActiveQuiz(index);
   };
 
-  const handleQuizEntry = (id) => {
-    // history.replace(`/quiz/${id}`);
-    console.log('enter!');
+  const handleQuizEntry = async (id) => {
+    const quiz = await getQuiz(id);
+    setQuiz(quiz);
+
     navigate('quiz');
   };
 

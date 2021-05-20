@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const questions: QuestionType[] = [
   {
     id: '435fgads',
@@ -102,5 +104,28 @@ const fakeQuiz: Quiz = {
   questions,
 };
 
-export const getFakeQuiz = () => fakeQuiz;
-// console.log(questions.sort((a,b) => b.type.length - a.type.length));
+const api = axios.create({
+  baseURL: 'http://112.74.185.169',
+});
+
+export const getQuizList = () => {
+  return api.get({
+    url: '/quiz',
+  });
+};
+
+export const getQuiz = (quizId) => {
+  return api.get({
+    url: '/quiz/questions',
+    params: {
+      quizId,
+    },
+  });
+};
+
+export const submitAnswers = (quizId, answerData) => {
+  return api.post('/quiz/questions', {
+    quizId,
+    answers: answerData,
+  });
+};

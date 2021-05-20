@@ -2,11 +2,9 @@ import { useMemo } from 'react';
 import create, { State } from 'zustand';
 import shallow from 'zustand/shallow';
 
-import { getFakeQuiz } from '../data/fakeQuiz';
-
 interface QuizStoreState extends State {
   quiz: Quiz;
-  // setQuiz: (quiz: Quiz) => void;
+  setQuiz: (quiz: Quiz) => void;
   current: number;
   setCurrentPage: (page: number) => void;
   mcPageSize: number;
@@ -17,10 +15,10 @@ interface QuizStoreState extends State {
 }
 
 export const useStore = create<QuizStoreState>((setState, getState) => ({
-  quiz: getFakeQuiz(),
+  quiz: null,
+  setQuiz: (quiz) => setState({ quiz }),
   screen: 'quizList',
   navigate: (screen) => setState({ screen }),
-  // setQuiz: (quiz) => setState({ quiz }),
   current: 0,
   setCurrentPage: (page) => setState({ current: page }),
   mcPageSize: 3,

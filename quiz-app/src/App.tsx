@@ -1,12 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from 'react';
 
 import { createUseStyles } from 'react-jss';
 
 //components
 import QuizScreen from './screens/QuizScreen';
-import { useNavigation, useStore } from './store/useStore';
-import { getFakeQuiz } from './data/fakeQuiz';
+import { useNavigation } from './store/useStore';
 import FinishScreen from './screens/FinishScreen';
 import QuizListScreen from './screens/QuizListScreen';
 

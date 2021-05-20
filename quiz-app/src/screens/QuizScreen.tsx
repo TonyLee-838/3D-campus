@@ -1,17 +1,12 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 
-//UI
-import { Card } from '@material-ui/core';
-
 //Components
 import QuestionForm from '../components/QuestionForm';
 import FormControl from '../components/FormControl';
 import Screen from '../components/common/Screen';
 
 const QuizScreen = () => {
-  const classes = useStyle();
-
   return (
     <Screen>
       <QuestionForm />

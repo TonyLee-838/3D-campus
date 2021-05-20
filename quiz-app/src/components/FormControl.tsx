@@ -6,20 +6,18 @@ import { Button, MobileStepper, Typography } from '@material-ui/core';
 
 import { useNavigation, useQuizProgress, useStore } from '../store/useStore';
 import colors from '../config/color';
-import { useHistory } from 'react-router';
+import { submitAnswers } from '../api';
 
 const FormControl = () => {
   const classes = useStyle();
-  const history = useHistory();
-
+  const quizId = useStore((state) => state.quiz.id);
   const answers = useStore((state) => state.answers);
   const { finished, total } = useQuizProgress();
   const { navigate } = useNavigation();
 
-  const handleSubmit = () => {
-    console.log(answers);
+  const handleSubmit = async () => {
+    await submitAnswers(quizId, answers);
     navigate('finish');
-    // history.push("/finish");
   };
 
   return (

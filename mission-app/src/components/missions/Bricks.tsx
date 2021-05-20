@@ -5,7 +5,6 @@ import { useBrickArray, useHoveredId, usePointerLocations } from '../../store/br
 import { usePagination } from '../../store/globalStore';
 
 import Brick from './Brick';
-import Pointer from './Pointer';
 
 const getZIndex = (index: number, total: number) => Math.abs(Math.abs(total / 2 - index) - total / 2);
 
