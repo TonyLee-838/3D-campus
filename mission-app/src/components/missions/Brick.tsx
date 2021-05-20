@@ -41,7 +41,7 @@ const Brick = React.memo((props: BrickProps) => {
       <div className={classes.left} />
 
       <div className={classes.right}></div>
-      <div className={classes.top}>{/* <div className={classes.dot}></div> */}</div>
+      <div className={classes.top}></div>
       <div className={classes.bottom} />
     </div>
   );

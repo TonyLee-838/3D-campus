@@ -5,7 +5,6 @@ import Router from './Router';
 const App = () => {
   return (
     <>
-      {/* <LoadingPage /> */}
       <Router />
     </>
   );

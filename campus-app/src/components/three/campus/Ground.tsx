@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 //Three
-import { useBox, usePlane } from '@react-three/cannon';
+import { usePlane } from '@react-three/cannon';
 
 //Config
 import colors from '../../../config/colors';

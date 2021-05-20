@@ -12,18 +12,7 @@ const commonConfig = {
             '@babel/preset-react',
             ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
           ],
-          plugins: [
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                absoluteRuntime: false,
-                corejs: false,
-                helpers: true,
-                regenerator: true,
-              },
-            ],
-            '@babel/plugin-transform-modules-commonjs',
-          ],
+          plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-transform-modules-commonjs'],
         },
         include: [path.resolve('.')],
       },
@@ -37,13 +26,13 @@ const commonConfig = {
       },
       {
         test: /\.scss$/i,
-        use: ['style-loader', 'sass-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
 
   resolve: {
-    extensions: ['.web.js', '.web.ts', '.web.tsx', '.tsx', '.ts', '.js', '.json', '.jsx', '.css'],
+    extensions: ['.tsx', '.ts', '.js', '.json', '.jsx', '.css'],
   },
   output: {
     filename: 'bundle.js',

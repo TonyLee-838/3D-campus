@@ -24,7 +24,6 @@ const devConfig = {
     },
   },
   output: {
-    // publicPath: `http://${HOST_URL}:${PORT}/`,
     publicPath: 'auto',
   },
   plugins: [

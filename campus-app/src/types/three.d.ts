@@ -64,6 +64,5 @@ export type EdgeDecorationType = 'trees' | 'lights';
 export type SuitablePosition = Dims2;
 
 export interface SuitablePositions {
-  // buildingId: [x,z]
   [key: string]: SuitablePosition;
 }

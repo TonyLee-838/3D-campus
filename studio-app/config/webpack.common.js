@@ -12,19 +12,7 @@ const commonConfig = {
             '@babel/preset-react',
             ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
           ],
-          plugins: [
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                absoluteRuntime: false,
-                corejs: false,
-                helpers: true,
-                regenerator: true,
-                useESModules: true,
-              },
-            ],
-            '@babel/plugin-transform-modules-commonjs',
-          ],
+          plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-transform-modules-commonjs'],
         },
         include: [path.resolve('.')],
       },
@@ -45,9 +33,6 @@ const commonConfig = {
 
   resolve: {
     extensions: [
-      '.web.js',
-      '.web.ts',
-      '.web.tsx',
       '.tsx',
       '.ts',
       '.js',

@@ -62,7 +62,6 @@ const useBricksStyles = createUseStyles((theme) => ({
     height: '100%',
     width: '100%',
     position: 'relative',
-    // overflow: 'hidden',
     transform: 'translateY(300px)',
   },
 }));

@@ -2,8 +2,10 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
+
 const loadENV = require('../env-config');
 
 loadENV();
@@ -18,7 +20,6 @@ const devConfig = {
   mode: 'development',
   output: {
     publicPath: `http://${HOST_URL}:${PORT}/`,
-    // publicPath: 'auto',
   },
   devServer: {
     port: PORT,

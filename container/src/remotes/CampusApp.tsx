@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from 'react';
 import { useHistory } from 'react-router';
 
 import { mount } from 'campus/CampusApp';
-// const { mount } = lazy(() => import('campus/CampusApp'));
 
 import useMount from '../hook/useMount';
 

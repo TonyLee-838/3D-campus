@@ -12,48 +12,10 @@ const commonConfig = {
             '@babel/preset-react',
             ['@babel/preset-typescript', { isTSX: true, allExtensions: true }],
           ],
-          plugins: [
-            // 'react-refresh/babel',
-
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                absoluteRuntime: false,
-                corejs: false,
-                helpers: true,
-                regenerator: true,
-                useESModules: true,
-              },
-            ],
-            '@babel/plugin-transform-modules-commonjs',
-          ],
+          plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-transform-modules-commonjs'],
         },
         include: [path.resolve('.')],
       },
-      // {
-      //   test: /\.jsx?$/,
-      //   loader: 'babel-loader',
-      //   exclude: /node_modules/,
-
-      //   options: {
-      //     presets: ['@babel/preset-react'],
-      //     plugins: [
-      //       '@babel/plugin-transform-flow-strip-types',
-      //       [
-      //         '@babel/plugin-transform-runtime',
-      //         {
-      //           absoluteRuntime: false,
-      //           corejs: false,
-      //           helpers: true,
-      //           regenerator: true,
-      //           useESModules: true,
-      //         },
-      //       ],
-      //       '@babel/plugin-transform-modules-commonjs',
-      //     ],
-      //   },
-      //   include: [path.resolve('.')],
-      // },
       {
         test: /\.html$/i,
         loader: 'html-loader',
@@ -70,18 +32,7 @@ const commonConfig = {
   },
 
   resolve: {
-    extensions: [
-      '.web.js',
-      '.web.ts',
-      '.web.tsx',
-      '.tsx',
-      '.ts',
-      '.js',
-      '.json',
-      '.jsx',
-      '.css',
-      '.gif',
-    ],
+    extensions: ['.tsx', '.ts', '.js', '.json', '.jsx', '.css', '.gif'],
   },
   output: {
     filename: 'bundle.js',

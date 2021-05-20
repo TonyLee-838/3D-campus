@@ -36,7 +36,6 @@
 <div style="height:120px">
  <img src="./docs/images/studio-3.gif">
 </div>
- 
 
 - 练习台
 
